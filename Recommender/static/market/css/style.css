@@ -437,12 +437,12 @@ section.home .intro{
 
 
 .home{
-	background: url(../images/home-bg.jpg) scroll no-repeat 0 0 / cover;
+	background: url(../images/home-bg-2.jpg) scroll no-repeat 0 0 / cover;
 }
 
-.home .intro{
-	background: url(../images/strange-bullseyes.png) scroll ;
-}
+/*.home .intro{*/
+	/*background: url(../images/strange-bullseyes.png) scroll ;*/
+/*}*/
 
 .intro-content{
 	padding: 5rem 0;
@@ -456,9 +456,9 @@ section.home .intro{
 .home h1{
 	margin-top: 0;
 	margin-bottom: 15px;
-	font-weight: 100; 
-	font-size: 60px; 
-	color: #fff; 
+	font-weight: 100;
+	font-size: 60px;
+	color: #fff;
 }
 
 .home h2 {
@@ -475,24 +475,24 @@ section.home .intro{
 	color: #fff;
 	border-radius: 5px;
 	background-color: #ff6567;
-	padding: 0 10px;  
+	padding: 0 10px;
 	height: 100px;
 }
 
 .home p{
-	color: #fff; 
-	font-size: 20px; 
-	font-weight: 100; 
+	color: #fff;
+	font-size: 20px;
+	font-weight: 100;
 }
 
 .home .btn.btn-default{
 	background-color: #697687;
-	color: #fff; 
-	font-weight: 600; 
-	font-size: 13px; 
-	padding: 8px 15px; 
-	border: transparent; 
-	border-bottom: 2px solid #556273; 
+	color: #fff;
+	font-weight: 600;
+	font-size: 13px;
+	padding: 8px 15px;
+	border: transparent;
+	border-bottom: 2px solid #556273;
 	border-radius: 5px;
 }
 
@@ -512,7 +512,7 @@ section.home .intro{
 }
 
 .home .carousel-control .fa{
-	font-size: 30px; 
+	font-size: 30px;
 	text-shadow: none;
 	color: #f0f0f0;
 }
