@@ -657,6 +657,7 @@
                 var shop = 'shop'+i
                 var follow = 'follow'+i
                 var comment = 'comment'+i
+                var score = 'score'+i
                 document.getElementById(image).src = items[i]['img_address']
                 document.getElementById(name).innerHTML = items[i]['description']
                 document.getElementById(price).innerHTML = '￥'+items[i]['price']
@@ -664,6 +665,7 @@
                 document.getElementById(shop).innerHTML = items[i]['shop']
                 document.getElementById(follow).innerHTML = '  '+items[i]['follow']
                 document.getElementById(comment).innerHTML = items[i]['comment']
+{#                document.getElementById(score).innerHTML = items[i]['score']#}
             }
         </script>
     </body>
