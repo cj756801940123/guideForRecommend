@@ -8,6 +8,32 @@
         <link href="{% static 'market/css/style.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'market/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'market/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+        <style>
+            .form-box{
+                border-radius:4%;
+                padding: 10px;
+                margin-top: 25px;
+                background-color:
+                rgba(0,0,0,0.5);
+            }
+            .form-top{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .form-bottom{
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .form-control{
+                height: 42px;
+                font-size: 15px;
+            }
+            .dropdown-toggle{
+                font-size:18px;color: #FFFFF0;width: 100px
+            }
+        </style>
     </head>   
 	<body>
 		
@@ -53,22 +79,22 @@
 								<!-- Collect the nav links, forms, and other content for toggling -->
 								<div class="collapse navbar-collapse" id="header-bottom">
 									<ul class="nav navbar-nav">
-										<li class="active"><a href="#" class="dropdown-toggle"  onmouseover="this.style.color='white'" onmouseout="this.style.color='#FFB90F'" style="color:#FFB90F;font-size:15px;width: 80px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
+										<li class="active"><a href="#" class="dropdown-toggle"  onmouseover="this.style.color='white'" onmouseout="this.style.color='#FFB90F'" style="text-align: center;color:#FFB90F;font-size:18px;width: 120px;font-weight: 300" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
 											<ul class="dropdown-menu">
 												<li><a href="login.html">安卓</a></li>
 												<li><a href="index-2.html">苹果</a></li>
 											</ul>	
 										</li>
-										<li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="font-size:15px;color: #FFFFF0;width: 80px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">电脑</a>
+										<li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 120px;font-weight: 300" onmouseout="this.style.color='white'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">电脑</a>
 											<ul class="dropdown-menu">
 												<li><a href="product.html">平板</a></li>
 												<li><a href="product-detail.html">手提</a></li>
 												<li><a href="new-product.html">台式</a></li>
 											</ul>
 										</li>
-                                        <li><a href="about-us.html" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="font-size:15px;color: #FFFFF0;width: 80px">电器</a> </li>
+                                        <li><a href="about-us.html" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 120px;font-weight: 300">电器</a> </li>
 
-                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="font-size:15px;color: #FFFFF0;width: 80px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
+                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 120px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
 											<ul class="dropdown-menu">
                                                 <li><a href="product-detail.html">底妆</a></li>
 												<li><a href="product.html">眼妆</a></li>
@@ -77,7 +103,7 @@
 											</ul>
 										</li>
 
-                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="font-size:15px;color: #FFFFF0;width: 80px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">护肤</a>
+                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 120px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">护肤</a>
 											<ul class="dropdown-menu">
 												<li><a href="product.html">洁面</a></li>
 												<li><a href="product-detail.html">面膜</a></li>
@@ -85,15 +111,7 @@
 												<li><a href="new-product.html">精华眼霜</a></li>
 											</ul>
 										</li>
-
 									</ul>
-									<form class="navbar-form navbar-right" role="search" action="/search_product" id="search_product" method="POST">
-										<div class="form-group">
-											<input name="keywords" type="text" class="form-control" style="color: #FFFFF0;width:230px " placeholder="请输入搜索内容...">
-									    </div>
-                                        <button class="form-control" type="submit" style="background-color: #7ED321;width: 60px;height: 36px;color: #FFFFF0" href="/search_product">搜索</button>
-                                        {% csrf_token %}
-									</form>
 								</div>
 							</div>
 						</nav>
@@ -108,115 +126,94 @@
 				<div id="home" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#home" data-slide-to="0" class="active"></li>
-						<li data-target="#home" data-slide-to="1"></li>
-						<li data-target="#home" data-slide-to="2"></li>
-						<li data-target="#home" data-slide-to="3"></li>
-						<li data-target="#home" data-slide-to="4"></li>
-						<li data-target="#home" data-slide-to="5"></li>
+{#						<li data-target="#home" data-slide-to="1"></li>#}
+{#						<li data-target="#home" data-slide-to="2"></li>#}
 					</ol>
 					<div class="carousel-inner" role="listbox">
 						<div class="item active">
 							<div class="container">
 								<div class="row">
-									<div class="col-sm-7">
+									<div class="col-sm-8" style="padding: 0px">
 										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
+											<h1>Good News!</h1>
+											<h2>Biggest <a  style="color: #fff;border-radius: 5px;background-color: #ff6567;padding:0 10px;height: 100px;font-size: 70px;font-weight:700;" onmouseover="this.style.color=' 	#1E90FF'" onmouseout="this.style.color='white'" >Sale</a></h2>
+											<h3 style="color:#FFFFF0;">Design and implementation of Recommender System based on user sentiment analysis.</h3>
+											<a class="btn btn-default"  style="font-size:20px;background-color: #FFB90F;width: 150px;height:50px;font-weight: bold" >Shop now</a>
 										</div>
 									</div>
+                                    <div class="col-sm-4 form-box">
+                                        <div class="form-top">
+                                             <div class="row" >
+                                                  <div class="col-sm-8 ">
+                                                    <h3 style="color: #7ED321;font-weight: bold";>Get Commodities</h3>
+                                                    <p>Fill in the form below :</p>
+                                                  </div>
+                                                  <div class="col-sm-4 ">
+                                                    <i class="fa fa-search fa-5x" style="padding: 10px;color:#DCDCDC"></i>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div class="form-bottom">
+                                            <form role="form" action="/search_product" method="POST" class="registration-form">
+                                                <div class="form-group">
+                                                    <input type="text" name="brand" placeholder="商品品牌..." class="form-name form-control"  >
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="keywords" placeholder="搜索关键字..." class="form-last-name form-control"  >
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row" >
+                                                          <div class="col-sm-6 ">
+                                                            <input type="text" name="low_price" placeholder="最低价..." class="form-email form-control"  >
+                                                          </div>
+
+                                                          <div class="col-sm-6 ">
+                                                            <input type="text" name="high_price" placeholder="最高价..." class="form-email form-control"  >
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn form-control" style="background-color:#7ED321;color:#FFFFF0;">搜索</button>
+									        {% csrf_token %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+								</div>	
+							</div>
+{#						<div class="item">#}
+{#							<div class="container">#}
+{#								<div class="row">#}
+{#									<div class="col-sm-7">#}
+{#										<div class="intro-content">#}
+{#											<h1>Last Chance</h1>#}
+{#											<h2>Biggest <span class="highlight">Sale</span></h2>#}
+{#											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>#}
+{#											<a class="btn btn-default">Shop Now</a>#}
+{#										</div>#}
+{#									</div>#}
 {#									<div class="col-sm-5">#}
-{#										<img class="img-responsive" src="static/market/images/person.png" height="742" alt="" />#}
-{#									</div>	#}
-								</div>	
-							</div>	
-						</div>
-						<div class="item">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-7">
-										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
-										</div>
-									</div>
-									<div class="col-sm-5">
-										<img class="img-responsive" src="static/market/images/option.png" alt="" />
-									</div>	
-								</div>	
-							</div>	
-						</div>
-						<div class="item">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-7">
-										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
-										</div>
-									</div>
-									<div class="col-sm-5">
-										<img class="img-responsive" src="static/market/images/option.png" alt="" />
-									</div>	
-								</div>	
-							</div>	
-						</div>
-						<div class="item">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-7">
-										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
-										</div>
-									</div>
-									<div class="col-sm-5">
-										<img class="img-responsive" src="static/market/images/person.png" alt="" />
-									</div>	
-								</div>	
-							</div>	
-						</div>
-						<div class="item">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-7">
-										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
-										</div>
-									</div>
-									<div class="col-sm-5">
-										<img class="img-responsive" src="static/market/images/option.png" alt="" />
-									</div>	
-								</div>	
-							</div>	
-						</div>
-						<div class="item">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-7">
-										<div class="intro-content">
-											<h1>Last Chance</h1>
-											<h2>Biggest <span class="highlight">Sale</span></h2>
-											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>
-											<a class="btn btn-default">Shop Now</a>
-										</div>
-									</div>
-									<div class="col-sm-5">
-										<img class="img-responsive" src="static/market/images/person.png" alt="" />
-									</div>	
-								</div>	
-							</div>	
-						</div>
+{#										<img class="img-responsive" src="static/market/images/option.png" alt="" />#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+{#						</div>#}
+{#						<div class="item">#}
+{#							<div class="container">#}
+{#								<div class="row">#}
+{#									<div class="col-sm-7">#}
+{#										<div class="intro-content">#}
+{#											<h1>Last Chance</h1>#}
+{#											<h2>Biggest <span class="highlight">Sale</span></h2>#}
+{#											<p>Nam apeirian assentior ei, utquo eros posse verterem. Cum eu error congue saperet. Teer eam exerci vputate consetetur.</p>#}
+{#											<a class="btn btn-default">Shop Now</a>#}
+{#										</div>#}
+{#									</div>#}
+{#									<div class="col-sm-5">#}
+{#										<img class="img-responsive" src="static/market/images/option.png" alt="" />#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+{#						</div>#}
 					</div>
 					<!-- Controls -->
 					<a class="left carousel-control" href="#home" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
@@ -552,4 +549,5 @@
         <script type="text/javascript" src="{% static 'market/bootstrap/js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'market/js/custom.js' %}"></script>
     </body>
+
 </html>
