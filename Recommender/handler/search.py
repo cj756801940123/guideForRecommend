@@ -97,10 +97,15 @@ def handle_sql_results(tables,keywords,page_no,order):
             temp["img_address"] = all_list[i][2]
             temp["address"] = all_list[i][3]
             temp["rate"] = str( round(all_list[i][4]*100,2))+'%'
-            temp["comment_count"] = str(all_list[i][5])
+
+            if all_list[i][5] > 10000:
+                all_list[i][5] = str(float(all_list[i][5]) / 10000) + '万+'
+            if all_list[i][8] > 10000:
+                all_list[i][8] = str(float(all_list[i][8]) / 10000) + '万+'
+            temp["comment"] = all_list[i][5]
             temp["description"] = all_list[i][6]
-            temp["shop_name"] = all_list[i][7]
-            temp["follow_count"] = str(all_list[i][8])
+            temp["shop"] = all_list[i][7]
+            temp["follow"] = all_list[i][8]
             items.append(temp)
 
     data = {}

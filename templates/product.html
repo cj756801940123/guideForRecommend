@@ -6,6 +6,14 @@
         <link href="{% static 'market/css/style.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'market/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'market/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+
+        <style>
+            .mystrong{
+                font-size: 12px !important;
+                font-weight: 300 !important;
+                color:#8B8378 !important;
+            }
+        </style>
     </head>   
 	<body>
 		<!-- header -->
@@ -258,17 +266,20 @@
 													</div>
 												</span>
 												<div class="caption">
-													<div class="category" style="font-size: 12px;padding-top: 15px;">好评率-差评率
-                                                    <div class="pull-right">
-                                                        <strong id="rate0" style="color: #d43f3a;font-size: 20px">98.00%</strong>
+													<div class="category" >
+                                                        <strong id="price0">$899.00</strong>
+                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">98.00%</p>
+                                                        <h5 id="name0" style="color: #5e5e5e;">Lorem ipsum dolor sit amet dolorem molestie</h5>
+                                                        <strong id="shop0" class="mystrong"></strong><strong id="follow0" style="font-size:12px;font-weight: bold;color:#836FFF"></strong><strong class="mystrong">人关注</strong>
+                                                        <br>
+                                                        <strong id="comment0" style="color: #836FFF;font-weight: bold;font-size:12px;"></strong><strong class="mystrong"> 条评价</strong>
+                                                        <br>
                                                     </div>
-													</div>
-													<h3 id="name0">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price0">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
+
+                                                    <a href="#" class="btn btn-default" role="button">查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                </div>
+                                            </div>
+                                        </div>
 										<div class="col-sm-4">
 											<div class="thumbnail">
 												<span class="service-link text-center">
@@ -290,7 +301,7 @@
 													</div>
 													<h3 id="name1">Lorem ipsum dolor sit amet dolorem molestie</h3>
 													<strong id="price1">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
+													<div><a href="#" class="btn btn-default" role="button">查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
 												</div>
 											</div>
 										</div>
@@ -643,10 +654,16 @@
                 var name = 'name'+i
                 var price = 'price'+i
                 var rate = 'rate'+i
+                var shop = 'shop'+i
+                var follow = 'follow'+i
+                var comment = 'comment'+i
                 document.getElementById(image).src = items[i]['img_address']
                 document.getElementById(name).innerHTML = items[i]['description']
                 document.getElementById(price).innerHTML = '￥'+items[i]['price']
                 document.getElementById(rate).innerHTML = items[i]['rate']
+                document.getElementById(shop).innerHTML = items[i]['shop']
+                document.getElementById(follow).innerHTML = '  '+items[i]['follow']
+                document.getElementById(comment).innerHTML = items[i]['comment']
             }
         </script>
     </body>
