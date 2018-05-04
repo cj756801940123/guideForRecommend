@@ -4,10 +4,12 @@ import os
 from operator import itemgetter
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.shortcuts import render
 from Recommender.handler import database_util
 from Recommender.handler import file_util
 from Recommender.handler import similarity_util
 import jieba
+import json
 
 file_path = (os.path.dirname(os.path.abspath("search.py")) + '/Recommender/data/').replace('\\','/')
 
@@ -91,14 +93,14 @@ def handle_sql_results(tables,keywords,page_no,order):
         if(i<len(all_list)):
             temp = {}
             temp["name"] = all_list[i][0]
-            temp["price"] = float(all_list[i][1])
+            temp["price"] = str(all_list[i][1])
             temp["img_address"] = all_list[i][2]
             temp["address"] = all_list[i][3]
-            temp["relative_rate"] = all_list[i][4]
-            temp["comment_count"] = all_list[i][5]
+            temp["rate"] = str( round(all_list[i][4]*100,2))+'%'
+            temp["comment_count"] = str(all_list[i][5])
             temp["description"] = all_list[i][6]
             temp["shop_name"] = all_list[i][7]
-            temp["follow_count"] = all_list[i][8]
+            temp["follow_count"] = str(all_list[i][8])
             items.append(temp)
 
     data = {}
@@ -130,10 +132,12 @@ def search_product(request):
     keywords = request.POST.get("keywords", '')
     order = 'df'
     results = get_products_page(keywords,1, order)
-    return JsonResponse(results, safe=False)
+    print(results)
+    return render(request, "product.html",{'List':json.dumps(results)})
+    # return JsonResponse(results, safe=False)
     # return render(request, "student/index.html", {'username': user})
     #return HttpResponse(request)
 
-
+# https://img11.360buyimg.com/n5/s54x54_jfs/t5773/143/1465870132/216483/4bbce005/592692d8Nbcc8f248.jpg
 
 # https://search.jd.com/Search?keyword=%E9%98%B2%E6%99%92&enc=utf-8&wq=%E9%98%B2%E6%99%92&ev=exprice_50-100
