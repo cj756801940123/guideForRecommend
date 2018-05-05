@@ -13,6 +13,17 @@
                 font-weight: 300 !important;
                 color:#8B8378 !important;
             }
+            .form-box{
+                border-radius:2% !important;
+                padding: 22px !important;
+                margin-top: 5px;
+                background-color:#EEE9E9 !important;
+                rgba(0,0,0,0.5) !important;
+            }
+            .white-color{
+                color: #FFFFF0 !important;
+                font-color: #FFFFF0 !important;
+            }
         </style>
     </head>   
 	<body>
@@ -101,45 +112,39 @@
 				</div>
 			</div>
 		</header>	
-		
-		<!-- desktop bar -->
-		<section class="desktop-bar">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-					 <h3>Products <i class="fa fa-bars"></i></h3>
-					</div>
-					<div class="col-sm-8">
-						<ol class="breadcrumb hidden-xs pull-right">
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Shop</a></li>
-							<li class="active"><a href="#">Products</a></li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</section>
-		
+
 		<!-- recommented products -->
-		<section class="featured-product recommented-product">
+		<section class="featured-product recommented-product" style="margin-top:0;padding-top: 0 ">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-3">
-						<div class="sidebar">
-							<div class="well wedget">
-							 	<strong>Fillter by price</strong>
-								<div class="heading-border b-color-6"></div>
-								
-								<div class="progress">
-								  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-									<span class="sr-only">20% Complete</span>
-								  </div>
-								</div>
-								
-								<small>Currency Shopping By :</small>
-								<p>Price : <span>$260 - $980</span></p>
-								
-								<a class="btn btn-default btn-block" href="#">Fillter Now</a>
+						<div class="sidebar  ">
+							<div class="well wedget form-box">
+							 	<strong style="color: #5e5e5e">当前筛选条件</strong>
+                                <div class="heading-border b-color-6" style="color: #5e5e5e"></div>
+                                <div >
+                                    <form role="form" action="/search_product" method="POST" class="registration-form">
+                                        <div class="form-group">
+                                            <input type="text" name="kind" id="kind" placeholder="商品类别..." class="form-name form-control"  >
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="keywords" id="keywords" placeholder="搜索关键字..." class="form-last-name form-control"  >
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="f1" >
+{#                                                  <div class="col-sm-6 ">#}
+                                                    <input type="text" name="price1" id="price1" placeholder="最低价..." class="form-email form-control " style="width:47%;display:inline"   >
+{#                                                  </div>#}
+                                                  <em>-</em>
+{#                                                  <div class="col-sm-6 ">#}
+                                                    <input type="text" name="price2" id="price2" placeholder="最高价..." class="form-email form-control" style="width:47%;display:inline"    >
+{#                                                  </div>#}
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
 							</div>
 							<div class="well wedget">
 							 	<strong>Fillter by Brand</strong>
@@ -239,8 +244,8 @@
 					<div class="col-sm-9">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="">
-									<h1><span class="t-color-1">Recommended</span> Products</h1>
+								<div class="" >
+									<h1><span class="t-color-1"  style="margin-top: 0px;">Recommended</span> Products</h1>
 									<div class="heading-border b-color-1"></div>
 								</div>
 							</div>
@@ -252,326 +257,65 @@
 								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>
 							</ol>
 							<div class="carousel-inner" role="listbox">
+
 								<div class="item active">
-									<div class="row">
-										<div class="col-sm-4" >
+                                    <div class="row">
+                                        {% for i in data1 %}
+										<div class="col-sm-4"  id="pro0">
 											<div class="thumbnail">
 												<!--span class="e-label"><div>Sale</div></span-->
 												<span class="service-link text-center" >
-{#													<img class="img-responsive" id="image-1" src="static/market/images/f-pro-1.jpg" alt="" height="180" width="180" >#}
-													<img class="img-responsive" id="image0" src="static/market/images/f-pro-1.jpg" alt="">
+                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="">
 													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
+														<a href={{i.url }}><i class="fa fa-eye"></i></a>
+														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
-												<div class="caption">
+												<div class="caption" style="height: 170px;">
 													<div class="category" >
-                                                        <strong id="price0">$899.00</strong>
-                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">98.00%</p>
-                                                        <h5 id="name0" style="color: #5e5e5e;">Lorem ipsum dolor sit amet dolorem molestie</h5>
-                                                        <strong id="shop0" class="mystrong"></strong><strong id="follow0" style="font-size:12px;font-weight: bold;color:#836FFF"></strong><strong class="mystrong">人关注</strong>
+                                                        <strong id="price0">￥{{i.price }}</strong>
+                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
+                                                        <p id="name0" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
+                                                        <strong id="shop0" class="mystrong">{{i.shop }}</strong><strong id="follow0" style="text-align: right;font-size:12px;font-weight: bold;color:#836FFF">  {{i.follow }}</strong><strong class="mystrong">人关注</strong>
                                                         <br>
-                                                        <strong id="comment0" style="color: #836FFF;font-weight: bold;font-size:12px;"></strong><strong class="mystrong"> 条评价</strong>
+                                                        <strong id="comment0" style="color: #836FFF;font-weight: bold;font-size:12px;">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
                                                         <br>
+                                                         <a class="btn btn-default" role="button" href={{i.url }}>查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
                                                     </div>
-
-                                                    <a href="#" class="btn btn-default" role="button">查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
                                                 </div>
                                             </div>
                                         </div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image1" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name1">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price1">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image2" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name2">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price2">$899.00</strong>
-													<div>
-														<a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-									</div>
-                                    <div class="row">
-										<div class="col-sm-4" >
-											<div class="thumbnail">
-												<!--span class="e-label"><div>Sale</div></span-->
-												<span class="service-link text-center" >
-{#													<img class="img-responsive" id="image2" id="image-1" src="static/market/images/f-pro-1.jpg" alt="" height="180" width="180" >#}
-													<img class="img-responsive" id="image3" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name3">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price3">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image4" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name4">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price4">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image5" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name5">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price5">$899.00</strong>
-													<div>
-														<a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-									</div>
-                                    <div class="row">
-										<div class="col-sm-4" >
-											<div class="thumbnail">
-												<!--span class="e-label"><div>Sale</div></span-->
-												<span class="service-link text-center" >
-{#													<img class="img-responsive" id="image6" id="image6" id="image-1" src="static/market/images/f-pro-1.jpg" alt="" height="180" width="180" >#}
-													<img class="img-responsive" id="image6" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name6">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price6">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image7" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name7">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price7">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image8" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name8">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price8">$899.00</strong>
-													<div>
-														<a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
+                                        {% endfor %}
 									</div>
 								</div>
 								<div class="item">
 									<div class="row">
-										<div class="col-sm-4">
+										{% for i in data2 %}
+										<div class="col-sm-4"  id="pro0">
 											<div class="thumbnail">
 												<!--span class="e-label"><div>Sale</div></span-->
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image9" src="static/market/images/f-pro-1.jpg" alt="">
+												<span class="service-link text-center" >
+                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="">
 													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
+														<a href={{i.url }}><i class="fa fa-eye"></i></a>
+														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name9">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price9">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image10" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name10">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price10">$899.00</strong>
-													<div><a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<span class="service-link text-center">
-													<img class="img-responsive" id="image11" src="static/market/images/f-pro-1.jpg" alt="">
-													<div class="list-inline">
-														<a href=""><i class="fa fa-eye"></i></a>
-														<a href=""><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption">
-													<div class="category"> category
-														<div class="pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-													</div>
-													<h3 id="name11">Lorem ipsum dolor sit amet dolorem molestie</h3>
-													<strong id="price11">$899.00</strong>
-													<div>
-														<a href="#" class="btn btn-default" role="button">Add to Cart</a><span class="pull-right"><i class="fa fa-heart-o"></i> Add to Wishlist</span></div>
-												</div>
-											</div>
-										</div>
+												<div class="caption" style="height: 170px;">
+													<div class="category" >
+                                                        <strong id="price0">￥{{i.price }}</strong>
+                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
+                                                        <p id="name0" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
+                                                        <strong id="shop0" class="mystrong">{{i.shop }}</strong><strong id="follow0" style="text-align: right;font-size:12px;font-weight: bold;color:#836FFF">  {{i.follow }}</strong><strong class="mystrong">人关注</strong>
+                                                        <br>
+                                                        <strong id="comment0" style="color: #836FFF;font-weight: bold;font-size:12px;">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
+                                                        <br>
+                                                         <a class="btn btn-default" role="button" href={{i.url }}>查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
 									</div>
 								</div>
 							</div>
@@ -646,27 +390,11 @@
         <script src="static/market/js/custom.js"></script>
 
         <script type="text/javascript">
-            var List = {{ List|safe}};
-            items = List['data']['item_list']
-            len = items.length
-            for(var i=0;i<=11;i++){
-                var image = 'image'+i
-                var name = 'name'+i
-                var price = 'price'+i
-                var rate = 'rate'+i
-                var shop = 'shop'+i
-                var follow = 'follow'+i
-                var comment = 'comment'+i
-                var score = 'score'+i
-                document.getElementById(image).src = items[i]['img_address']
-                document.getElementById(name).innerHTML = items[i]['description']
-                document.getElementById(price).innerHTML = '￥'+items[i]['price']
-                document.getElementById(rate).innerHTML = items[i]['rate']
-                document.getElementById(shop).innerHTML = items[i]['shop']
-                document.getElementById(follow).innerHTML = '  '+items[i]['follow']
-                document.getElementById(comment).innerHTML = items[i]['comment']
-{#                document.getElementById(score).innerHTML = items[i]['score']#}
-            }
+            var message = {{ message|safe}};
+            document.getElementById('kind').value = message['kind']
+            document.getElementById('keywords').value = message['keywords']
+            document.getElementById('price1').value = message['price1']
+            document.getElementById('price2').value = message['price2']
         </script>
     </body>
 </html>

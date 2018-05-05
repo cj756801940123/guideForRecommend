@@ -14,29 +14,17 @@ import json
 file_path = (os.path.dirname(os.path.abspath("search.py")) + '/Recommender/data/').replace('\\','/')
 
 #获取应该去哪些数据库表中查询
-def get_tables_and_keywords(keyword):
+def get_tables(keyword):
     #获取需要模糊匹配的单词
-    file_util.del_duplicate('train_files/dictionary.txt')
-    jieba.load_userdict(file_path + 'train_files/dictionary.txt')
-    temp = list(jieba.cut(keyword))
-    first_keywprd = temp[0]
-    keywords = ''
-    for i in temp:
-        if i !=' ':
-            keywords = keywords+'+'+i+' '
-    print (keywords)
-
-    if keyword.find('唇')>=0 or keyword.find('口')>=0 or keyword.find('嘴')>=0:
-        tables = ['product_lipstick']
-    elif keyword.find('眼')>=0 or keyword.find('睫毛')>=0 or keyword.find('眉')>=0:
-        tables = ['product_eye']
-    elif keyword.find('香水')>=0:
-        tables = ['product_perfume','product_other_perfume']
-    elif keyword.find('霜')>=0 or keyword.find('乳')>=0 or keyword.find('液')>=0 or keyword.find('水')>=0:
-        tables = ['product_baseMakeup']
-    else:
-        tables = similarity_util.get_similar_type(first_keywprd)
-
+    # file_util.del_duplicate('train_files/dictionary.txt')
+    # jieba.load_userdict(file_path + 'train_files/dictionary.txt')
+    # temp = list(jieba.cut(keyword))
+    # first_keywprd = temp[0]
+    # keywords = ''
+    # for i in temp:
+    #     if i !=' ':
+    #         keywords = keywords+'+'+i+' '
+    # print (keywords)
     tables = ['cellphones']
     print(keyword)
     return tables,keyword
@@ -47,57 +35,58 @@ def get_other_tables(tables):
         kinds.remove(i)
     return kinds
 
-def handle_sql_results(tables,keywords,page_no,order):
+def handle_sql_results(tables,keywords,price1,price2,page_no):
     #获取需要进行查询的sql语句
     sql_list = []
     for i in tables:
         sql = 'select name,price,img_address,address,relative_rate,comment_count,description,shop_name,follow_count from '+i+' ' \
-       'where match(description) against(%s in natural language mode);'
+       'where match(description) against(%s in natural language mode) and price>=%s and price<=%s;'
         sql_list.append(sql)
 
-    #进行sql查询并处理查询结果
-    result = {}
+    #数据初始化
+    results = {}
+    message = {}
+    item1 = []
+    item2 = []
+    results['data1'] = {}
+    results['data2'] = {}
+
+    # 进行sql查询并处理查询结果
     all_list = []
     for i in sql_list:
-        temp = database_util.search_sql(i, keywords)
+        data = [keywords, int(price1), int(price2)]
+        temp = database_util.search_sql(i, data)
         code = int(temp[0])
         if code==-1:
-            result['error_code'] = 1
-            result['msg'] = temp[1]
-            result['page_count'] = 0
+            message['error_code'] = 1
+            message['msg'] = temp[1]
+            message['page_count'] = 0
             continue
         temp = list(temp[1])
         if len(temp)==0:
             continue
-
         for j in temp:
             item = list(j)
             all_list.append(item)
 
     if len(all_list) ==0:
-        result['error_code'] = 1
-        result['msg'] = '搜索不出对应的产品!'
-        result['page_count'] = 0
-        return result
+        message['error_code'] = 1
+        message['msg'] = '搜索不出对应的产品!'
+        message['page_count'] = 0
+        results['message'] = message
+        return results
 
-    if order=='df':
-        all_list.sort(key=itemgetter(5,4), reverse=True)
-    elif order=='pu':
-        all_list.sort(key=itemgetter(1))
-    else:
-        all_list.sort(key=itemgetter(1), reverse=True)
-
-    items = []
-    start = (page_no-1)*20
-    for i in range(start,start+20):
+    #排序之后输出结束
+    start = (page_no-1)*18
+    all_list.sort(key=itemgetter(5, 8), reverse=True)
+    for i in range(start,start+18):
         if(i<len(all_list)):
             temp = {}
             temp["name"] = all_list[i][0]
             temp["price"] = str(all_list[i][1])
-            temp["img_address"] = all_list[i][2]
+            temp["img"] = all_list[i][2]
             temp["address"] = all_list[i][3]
             temp["rate"] = str( round(all_list[i][4]*100,2))+'%'
-
             if all_list[i][5] > 10000:
                 all_list[i][5] = str(float(all_list[i][5]) / 10000) + '万+'
             if all_list[i][8] > 10000:
@@ -106,42 +95,44 @@ def handle_sql_results(tables,keywords,page_no,order):
             temp["description"] = all_list[i][6]
             temp["shop"] = all_list[i][7]
             temp["follow"] = all_list[i][8]
-            items.append(temp)
+            if i<9:
+                item1.append(temp)
+            else:
+                item2.append(temp)
 
-    data = {}
-    data['item_list'] = items
-    result['error_code'] = 0
-    result['msg'] = 'success'
-    result['data'] = data
+    message['error_code'] = 0
+    message['msg'] = 'success'
+    results['data1'] = item1
+    results['data2'] = item2
 
-    page_count = int(len(all_list)/20)
-    if len(all_list)%20>0 :
+    page_count = int(len(all_list)/18)
+    if len(all_list)%18>0 :
         page_count +=1
-    result['page_count'] = page_count
 
-    if page_no>page_count:
-        result['error_code'] = 1
-        result['msg'] = '输入的页数超过范围啦！'
-    return result
+    message['page_count'] = page_count
+    results['message'] = message
+    return results
 
-def get_products_page(keyword,page_no,order):
-    result = get_tables_and_keywords(keyword)
+def get_products_page(message,page_no):
+    keywords = message['keywords']
+    price1 = message['price1']
+    price2 = message['price2']
+    result = get_tables(keywords)
     tables = result[0]
     keywords = result[1]
-    result = handle_sql_results(tables, keywords, page_no,order)
+    result = handle_sql_results(tables, keywords,price1,price2,page_no)
     return result
-
 
 @require_http_methods(["POST"])
 def search_product(request):
-    keywords = request.POST.get("keywords", '')
-    order = 'df'
-    results = get_products_page(keywords,1, order)
-    print(results)
-    return render(request, "product.html",{'List':json.dumps(results)})
-    # return JsonResponse(results, safe=False)
-    # return render(request, "student/index.html", {'username': user})
-    #return HttpResponse(request)
+    message = {}
+    message['kind'] = request.POST.get("kind", '')
+    message['keywords'] = request.POST.get("keywords", '')
+    message['price1'] = request.POST.get("price1", '0')
+    message['price2'] = request.POST.get("price2", '6000')
+    results = get_products_page(message,1)
+    message['result'] = results['message']
+    return render(request, "product.html",{'message':json.dumps(message),'data1':results['data1'],'data2':results['data2']})
 
 # https://img11.360buyimg.com/n5/s54x54_jfs/t5773/143/1465870132/216483/4bbce005/592692d8Nbcc8f248.jpg
 
