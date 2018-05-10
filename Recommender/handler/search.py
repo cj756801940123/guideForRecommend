@@ -10,8 +10,8 @@ from Recommender.handler import file_util
 from Recommender.handler import similarity_util
 import jieba
 import json
-
-file_path = (os.path.dirname(os.path.abspath("search.py")) + '/Recommender/data/').replace('\\','/')
+FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
+DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
 #获取应该去哪些数据库表中查询
 def get_tables(keyword):

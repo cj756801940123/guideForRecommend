@@ -11,13 +11,14 @@ from Recommender.handler import similarity_util
 import jieba
 import json
 
-FILE_PATH = (os.path.dirname(os.path.abspath("search.py")) + '/Recommender/data/').replace('\\','/')
+FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
+
 
 def get_product_info(table,sku):
     #数据初始化
     result = {}
-    sql = 'select name,price,img,url,rate,comment_count,description,shop_name,follow_count,sku,avg_price from ' + table + ' where sku=%s;'
+    sql = 'select name,price,img,url,rate,comment_count,description,shop_name,follow_count,sku,avg_price,sentiment from ' + table + ' where sku=%s;'
     data = [sku]
     sql_result = database_util.search_sql(sql, data)
     if sql_result[0]!=-1:
@@ -37,6 +38,7 @@ def get_product_info(table,sku):
         result["follow"] = temp[8]
         result["sku"] = temp[9]
         result["avg_price"] = temp[10]
+        result["sentiment"] = int(temp[11])
     return result
 
 def get_comment(table,sku):
@@ -54,7 +56,7 @@ def get_comment(table,sku):
             commnet = each_line[c_index+9:].strip('\n')
             temp['score'] = score
             temp['star'] = star
-            temp['nickname'] = nickname
+            temp['nickname'] = '    '+nickname
             temp['comment'] = commnet
             useful_comments.append(temp)
 
@@ -66,6 +68,43 @@ def get_comment(table,sku):
 
     return useful_comments
 
+def get_unreal_comment(table,sku):
+    unreal_file = DATA_PATH+table+'/unreal_comments/'+sku+'.txt'
+    if not os.path.exists(unreal_file):
+        return []
+    try:
+        file = open(unreal_file, "r", encoding='utf-8')
+        unreal_comments = []
+        for each_line in file:
+            temp = {}
+            star = each_line[0]
+            c_index = each_line.find(' comment:')
+            nickname = each_line[13:c_index]
+            commnet = each_line[c_index+9:].strip('\n')
+            temp['star'] = star
+            temp['nickname'] = nickname
+            temp['comment'] = commnet
+            unreal_comments.append(temp)
+    except Exception as err:
+        print('product_detail get_unreal_comment err:'+str(err))
+    finally:
+        file.close()
+    return unreal_comments
+
+def get_attribute(table):
+    try:
+        fin = open(FILE_PATH+'procedure_files/'+table+'_attributes.txt', 'r', encoding='utf-8')  # 以读的方式打开文件
+        attribute_words = []
+        for eachLine in fin:
+            word = eachLine.strip()
+            words = word.split(',')
+            attribute_words.append(words[0])
+    except Exception as err:
+        print('product_detail get_attribute err:'+str(err))
+    finally:
+        fin.close()
+    return attribute_words
+
 
 @require_http_methods(["POST"])
 def get_product_detail(request):
@@ -73,5 +112,7 @@ def get_product_detail(request):
     sku = request.POST.get("sku", '')
     result = get_product_info(table,sku)
     score_comments = get_comment(table, sku)
-    return render(request, "product-detail.html",{'result':result,'score_comments':score_comments})
+    unreal_comments = get_unreal_comment(table, sku)
+    attributes = get_attribute(table)
+    return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,'unreal_comments':unreal_comments,'attributes':attributes})
 
