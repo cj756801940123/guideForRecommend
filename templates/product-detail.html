@@ -9,6 +9,13 @@
         <link href="{% static 'market/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'market/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
 
+        <style>
+            .comment .comment-item .comment-star {
+                width: 78px;
+                height: 14px;
+                background: url(//static.360buyimg.com/item/unite/1.0.0/components/default/comment/i/star.png) no-repeat;
+            }
+        </style>
     </head>   
 	<body>
 		<!-- header -->
@@ -100,8 +107,8 @@
 		<section class="desk-com">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-5" style="width: 450px">
-						<div id="pro-img" class="carousel slide" data-ride="carousel" style="padding: 15px;margin: 15px ">
+					<div class="col-sm-5" style="width: 400px">
+						<div id="pro-img" class="carousel slide" data-ride="carousel" style="padding: 15px">
 							<div class="carousel-inner" role="listbox" >
 								<div class="item active" align="center" ><img src={{ result.img }} alt=""></div>
 								<div class="item" align="center" ><img src={{ result.img }} alt=""></div>
@@ -128,20 +135,20 @@
 							<ul class="list-inline wish-email">
 								<li><i class="fa fa-heart-o"></i> Add To Wishlist</li>
 {#								<li><i class="fa fa-file-o"></i> Add To Compare list</li>#}
-								<li><i class="fa fa-envelope-o"></i> Email to a Friend</li>
+{#								<li><i class="fa fa-envelope-o"></i> Email to a Friend</li>#}
 							</ul>
-							<p>Raw p quis cardigan american apparel, butcher voluptate nisi qui.</p>
-							<div class="currency">{{ result.price }}<span>{{ result.avg_price }}</span></div>
+{#							<p>Raw p quis cardigan american apparel, butcher voluptate nisi qui.</p>#}
+							<div class="currency">￥{{ result.price }}<span>历史平均价格 ￥{{ result.avg_price }}</span></div>
 							<div class="add-cart"><a class="btn btn-default" herf="#">去购买</a></div>
 							<p class="tags">Tags :  <a href="#">laptops</a>, <a href="#">desktops</a>, <a href="#">tablets</a>, <a href="#">tablets</a>, <a href="#">tablets</a></p>
-							<ul class="list-inline p-d-social">
-								<li>Share with Friends : </li>
-								<li><i class="fa fa-flickr"></i></li>
-								<li><i class="fa fa-pinterest-square"></i></li>
-								<li><i class="fa fa-facebook-square"></i></li>
-								<li><i class="fa fa-twitter-square"></i></li>
-								<li><i class="fa fa-linkedin-square"></i></li>
-							</ul>
+{#							<ul class="list-inline p-d-social">#}
+{#								<li>Share with Friends : </li>#}
+{#								<li><i class="fa fa-flickr"></i></li>#}
+{#								<li><i class="fa fa-pinterest-square"></i></li>#}
+{#								<li><i class="fa fa-facebook-square"></i></li>#}
+{#								<li><i class="fa fa-twitter-square"></i></li>#}
+{#								<li><i class="fa fa-linkedin-square"></i></li>#}
+{#							</ul>#}
 						</div>
 					</div>
 				</div>
@@ -162,8 +169,34 @@
 
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="description">
-									<h2>Product Feature</h2>
+								<div role="tabpanel" class="tab-pane active" id="description" style="padding: 20px">
+                                    <div class="comment-item" >
+                                        {% for i in score_comments %}
+                                        <div class="row">
+                                            <div class="col-sm-2 user-column">
+                                                <div class="user-info">
+                                                    <img src="//misc.360buyimg.com/user/myjd-2015/css/i/peisong.jpg" alt="j***y" class="avatar" width="25" height="25">
+                                                    {{ i.nickname }}
+                                                    </div>
+                                                    <div class="user-level">
+                                                    <strong id="price0">情感值评分 {{ i.score }}</strong>
+{#                                                    <span style="color: rgb(136, 136, 136);">京享值5312</span>#}
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-10 comment-column J-comment-column">
+                                                <div class="comment-star star5"></div>
+                                                <p class="comment-con">{{ i.comment}}</p>
+                                                <div class="J-pic-view-wrap clearfix" data-rotation="0">
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <hr>
+                                        {% endfor %}
+                                    </div>
+
+                                    <h2>Product Feature</h2>
 									<p>Lorem ipsum dolor sit amet, no mea aeterno indoctum percipitur. Homero quaerendum ius ei. In pro decore tamquam 									appetere, ea mentitum mediocrem efficiantur quo. Quo no assentior conclusionemque. Qui cu ceteros accusata. Partem 									utamur explicari eos at. Ad brute veritus theophrastus vis, an quo mutat voluptaria mnesarchum, eum impetus numquam 								intellegam in. Eu alii oratio aliquip mea, eum inani tantas ex. In sit vidit eirmod, ceteros reprimique sit cu, 								    facilisis assueverit disputationi ad est.</p>
 
 									<ul class="list-ver">
