@@ -140,11 +140,10 @@
                             <div class="currency">￥{{ result.price }}<span>历史平均价格 ￥{{ result.avg_price }}</span></div>
                             <span class="tags">关键属性:</span>
                              <p>
-                                  {% for i in attributes %}
-                                <a href="#">{{ i }}</a>,
+                                 {% for i in attributes %}
+                                     <a href="#">{{ i }}</a>,
                                   {% endfor %}
                              </p>
-
                             <div class="add-cart"><a class="btn btn-default" herf="#">去购买</a>
                             </div>
 						</div>
