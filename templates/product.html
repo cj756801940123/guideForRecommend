@@ -38,7 +38,23 @@
             .height-control{
                 width:100%;
 {#              white-space: nowrap; #不换行#}
-                line-height: 20px  !important;
+{#                line-height: 20px  !important;#}
+{#                overflow:hidden !important;#}
+{#                text-overflow:ellipsis !important;#}
+{#                display: -webkit-box;#}
+{#                -webkit-box-orient: vertical;#}
+{#                -webkit-line-clamp: 2;#}
+{#                padding: 0;#}
+{#                margin: 0;#}
+                overflow : hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical;
+            }
+            .no-newline{
+                width:100%;
+                white-space: nowrap;
                 overflow:hidden !important;
                 text-overflow:ellipsis !important;
                 padding: 0;
@@ -142,22 +158,18 @@
 							<div class="well wedget form-box">
 							 	<strong style="color: #5e5e5e">当前筛选条件</strong>
                                 <div >
-                                    <form role="form" action="/search_product" method="POST" class="registration-form">
+                                    <form role="form" action="/recommend_products" method="POST" class="registration-form">
                                         <div class="form-group">
-                                            <input type="text" name="kind" id="kind" placeholder="商品类别..." class="form-name form-control"  >
+                                            <input type="text" name="kind" id="kind" style="display:none;" placeholder="商品类别..." class="form-name form-control"  >
                                         </div>
                                         <div class="form-group">
                                             <input type="text" name="keywords" id="keywords" placeholder="搜索关键字..." class="form-last-name form-control"  >
                                         </div>
                                         <div class="form-group">
                                             <div class="f1" >
-{#                                                  <div class="col-sm-6 ">#}
                                                     <input type="text" name="price1" id="price1" placeholder="最低价..." class="form-email form-control " style="width:47%;display:inline"   >
-{#                                                  </div>#}
                                                   <em>-</em>
-{#                                                  <div class="col-sm-6 ">#}
                                                     <input type="text" name="price2" id="price2" placeholder="最高价..." class="form-email form-control" style="width:47%;display:inline"    >
-{#                                                  </div>#}
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>
@@ -269,11 +281,21 @@
                                                         <strong id="price0">￥{{i.price }}</strong>
                                                         <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
                                                         <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
+                                                        <strong class="mystrong no-newline">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
                                                         <br>
-                                                         <a class="btn btn-default" role="button" href={{i.url }}>查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
+                                                            <div class="form-group">
+                                                                <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
+{#                                                                <input type="text" name="sku" style="display:none;" value={{i.sku}} class="form-name form-control"/>#}
+                                                            </div>
+                                                            <button class="btn btn-default" type="submit" role="button" >查看详情</button><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+{#                                                             <a class="btn btn-default"  role="button" href={{i.url }}>查看详情</><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>#}
+
+{#                                                            <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>#}
+                                                            {% csrf_token %}
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -299,7 +321,7 @@
                                                         <strong id="price0">￥{{i.price }}</strong>
                                                         <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
                                                         <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
+                                                        <strong class="mystrong no-newline">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
                                                         <br>

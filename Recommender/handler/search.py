@@ -15,17 +15,7 @@ file_path = (os.path.dirname(os.path.abspath("search.py")) + '/Recommender/data/
 
 #获取应该去哪些数据库表中查询
 def get_tables(keyword):
-    #获取需要模糊匹配的单词
-    # file_util.del_duplicate('train_files/dictionary.txt')
-    # jieba.load_userdict(file_path + 'train_files/dictionary.txt')
-    # temp = list(jieba.cut(keyword))
-    # first_keywprd = temp[0]
-    # keywords = ''
-    # for i in temp:
-    #     if i !=' ':
-    #         keywords = keywords+'+'+i+' '
-    # print (keywords)
-    tables = ['cellphones']
+    tables = ['cellphone']
     print(keyword)
     return tables,keyword
 
@@ -44,12 +34,13 @@ def handle_sql_results(tables,keywords,price1,price2,page_no):
     results['brands'] = {}
     item_sql = []
     brand_sql = []
+    print(price1,price2)
     for i in tables:
         if keywords == '':
-            sql1 = 'select name,price,img_address,address,relative_rate,comment_count,description,shop_name,follow_count from ' + i + ' where price>=%s and price<=%s;'
+            sql1 = 'select name,price,img,url,rate,comment_count,description,shop_name,follow_count,sku from ' + i + ' where price>=%s and price<=%s;'
             data = [int(price1), int(price2)]
         else:
-            sql1 = 'select name,price,img_address,address,relative_rate,comment_count,description,shop_name,follow_count from '+i+' ' \
+            sql1 = 'select name,price,img,url,rate,comment_count,description,shop_name,follow_count,sku from '+i+' ' \
        'where match(description) against(%s in natural language mode) and price>=%s and price<=%s;'
             data = [keywords, int(price1), int(price2)]
         sql2 = 'select shop_name,brand ,follow_count from '+i+' group by brand order by follow_count desc limit 10;'
@@ -115,6 +106,7 @@ def handle_sql_results(tables,keywords,price1,price2,page_no):
             temp["description"] = all_list[i][6]
             temp["shop"] = all_list[i][7]
             temp["follow"] = all_list[i][8]
+            temp["sku"] = all_list[i][9]
             if i<start+9:
                 item1.append(temp)
             else:
@@ -160,13 +152,17 @@ def search_product(request):
     message = {}
     message['kind'] = request.POST.get("kind", '')
     message['keywords'] = request.POST.get("keywords", '')
-    message['price1'] = request.POST.get("price1", '0')
-    message['price2'] = request.POST.get("price2", '6000')
+    message['price1'] = request.POST.get("price1", '')
+    message['price2'] = request.POST.get("price2", '')
+    if  message['price1'] =='':
+        message['price1'] = 0
+    if  message['price2'] =='':
+        message['price2'] = 5000
     results = get_products_page(message,1)
     message['result'] = results['message']
     print(results['brands'])
     return render(request, "product.html",{'brands':results['brands'],'message':json.dumps(message),'data1':results['data1'],'data2':results['data2']})
 
 # https://img11.360buyimg.com/n5/s54x54_jfs/t5773/143/1465870132/216483/4bbce005/592692d8Nbcc8f248.jpg
-
+# https://img10.360buyimg.com/n7/jfs/t18772/89/1863054684/170815/d28ecae1/5adca3deN76bb61cb.jpg
 # https://search.jd.com/Search?keyword=%E9%98%B2%E6%99%92&enc=utf-8&wq=%E9%98%B2%E6%99%92&ev=exprice_50-100

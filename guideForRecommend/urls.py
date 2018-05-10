@@ -18,12 +18,13 @@ from django.contrib import admin
 #利用TemplateView
 from django.views.generic import TemplateView
 from Recommender.handler import search
+from Recommender.handler import product_detail
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
-
-    url(r'^search_product', search.search_product),
+    url(r'^recommend_products', search.search_product),
     url(r'^product.html', search.search_product),
+    url(r'^product_detail', product_detail.get_product_detail),
 ]
