@@ -59,19 +59,16 @@ def get_comment(table,sku):
             temp['nickname'] = '    '+nickname
             temp['comment'] = commnet
             useful_comments.append(temp)
-
-
     except Exception as err:
         print('product_detail get_comment err:'+str(err))
     finally:
         file.close()
-
-    return useful_comments
+    return len(useful_comments),useful_comments
 
 def get_unreal_comment(table,sku):
     unreal_file = DATA_PATH+table+'/unreal_comments/'+sku+'.txt'
     if not os.path.exists(unreal_file):
-        return []
+        return 0,[]
     try:
         file = open(unreal_file, "r", encoding='utf-8')
         unreal_comments = []
@@ -89,7 +86,7 @@ def get_unreal_comment(table,sku):
         print('product_detail get_unreal_comment err:'+str(err))
     finally:
         file.close()
-    return unreal_comments
+    return len(unreal_comments),unreal_comments
 
 def get_attribute(table):
     try:
@@ -111,8 +108,15 @@ def get_product_detail(request):
     table = 'cellphone'
     sku = request.POST.get("sku", '')
     result = get_product_info(table,sku)
-    score_comments = get_comment(table, sku)
-    unreal_comments = get_unreal_comment(table, sku)
+    temp = get_comment(table, sku)
+    useful = temp[0]
+    score_comments = temp[1]
+    temp = get_unreal_comment(table, sku)
+    unreal_comments = temp[1]
+    unreal = temp[0]
+    unreal_rate = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
+    print('unreal_rate:'+unreal_rate)
     attributes = get_attribute(table)
-    return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,'unreal_comments':unreal_comments,'attributes':attributes})
+    return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,
+                              'unreal_comments':unreal_comments,'attributes':attributes,'unreal_rate':unreal_rate})
 
