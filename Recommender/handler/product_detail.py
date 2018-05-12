@@ -18,7 +18,7 @@ DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/
 def get_product_info(table,sku):
     #数据初始化
     result = {}
-    sql = 'select name,price,img,url,rate,comment_count,description,shop_name,follow_count,sku,avg_price,sentiment from ' + table + ' where sku=%s;'
+    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,avg_price,sentiment from ' + table + ' where sku=%s;'
     data = [sku]
     sql_result = database_util.search_sql(sql, data)
     if sql_result[0]!=-1:
