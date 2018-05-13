@@ -37,7 +37,7 @@ def handle_sql_results(table,user,keywords,price1,price2):
 
     # 进行sql查询并处理查询结果
     all_list = []
-    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot from '
+    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '
     if keywords == '':
         item_sql = sql + table + ' where price>=%s and price<=%s;'
         sql_result = database_util.search_sql(item_sql, [int(price1), int(price2)])
@@ -53,7 +53,7 @@ def handle_sql_results(table,user,keywords,price1,price2):
             all_list.append(j)
 
     # 排序之后输出结束
-    all_list.sort(key=itemgetter(12), reverse=True)
+    all_list.sort(key=itemgetter(13), reverse=True)
     item1 = []
     item2 = []
     item3 = []
@@ -74,7 +74,8 @@ def handle_sql_results(table,user,keywords,price1,price2):
             temp["shop"] = all_list[i][7]
             temp["follow"] = all_list[i][8]
             temp["sku"] = all_list[i][9]
-            temp['score'] = all_list[i][12]
+            temp['score'] = all_list[i][13]
+            temp['avg_price'] = all_list[i][12]
             if i < 9:
                 item1.append(temp)
             elif i<18:

@@ -186,6 +186,7 @@
 							</div>
                             <div class="well wedget form-box">
                                 <strong style="color: #5e5e5e">设置推荐参数分值</strong>
+                                <div class="heading-border b-color-6" style="color: #5e5e5e;width:100%;margin-bottom: 15px"></div>
                                 <div >
                                     <form role="form" action="/reset_weight" method="POST" class="registration-form">
                                         <div class="form-group">
@@ -211,6 +212,12 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="single-add">
+								<h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>
+                                <h4 style="font-weight: 600">商品列表</h4>
+								<a href="#" class="btn btn-default" role="button">查看详情</a>
+								<span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>
+							</div>
 							<div class="well wedget footer-top">
 							 	<strong>Special Offers</strong>
 								<div class="heading-border b-color-6"></div>
@@ -275,11 +282,11 @@
 						</div> <!-- section title -->
 						
 						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"><i class="fa fa-angle-left"></i></li>
-								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>
-								<li data-target="#carousel-example-generic" data-slide-to="2"><i class="fa fa-angle-right"></i></li>
-							</ol>
+{#							<ol class="carousel-indicators">#}
+{#								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"><i class="fa fa-angle-left"></i></li>#}
+{#								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>#}
+{#								<li data-target="#carousel-example-generic" data-slide-to="2"><i class="fa fa-angle-right"></i></li>#}
+{#							</ol>#}
 							<div class="carousel-inner" role="listbox">
 								<div class="item active">
                                     <div class="row">
@@ -288,26 +295,30 @@
 											<div class="thumbnail">
 												<!--span class="e-label"><div>Sale</div></span-->
 												<span class="service-link text-center" >
-                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="static/market/images/special-price.jpg">
+                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
 													<div class="list-inline">
 														<a href={{i.url }}><i class="fa fa-eye"></i></a>
 														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
 												<div class="caption" style="height: 170px;">
-													<div class="category" >
-                                                        <strong id="price0">￥{{i.price }}</strong>
-                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
+													<div class="category" style="margin:0px">
+                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
+                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
+                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
+                                                        </strong>
                                                         <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong no-newline">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
+                                                        <strong class="mystrong no-newline">{{i.shop }}</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
+                                                        <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
                                                         <br>
                                                         <form role="form" action="/product_detail" method="POST" class="registration-form">
                                                             <div class="form-group">
                                                                 <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
                                                              </div>
-                                                            <button class="btn btn-default" type="submit" role="button" >查看详情</button><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                            <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
+                                                            <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
                                                           {% csrf_token %}
                                                          </form>
                                                     </div>
@@ -324,22 +335,32 @@
 											<div class="thumbnail">
 												<!--span class="e-label"><div>Sale</div></span-->
 												<span class="service-link text-center" >
-                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="static/market/images/special-price.jpg">
+                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
 													<div class="list-inline">
 														<a href={{i.url }}><i class="fa fa-eye"></i></a>
 														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
 												<div class="caption" style="height: 170px;">
-													<div class="category" >
-                                                        <strong id="price0">￥{{i.price }}</strong>
-                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong no-newline">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
+													<div class="category" style="margin:0px">
+                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
+                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
+                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
+                                                        </strong>
+                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 15px">{{i.name }}</p>
+                                                        <strong class="mystrong no-newline">{{i.shop }}</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
+                                                        <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
                                                         <br>
-                                                         <a class="btn btn-default" role="button" href={{i.url }}>查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
+                                                            <div class="form-group">
+                                                                <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
+                                                             </div>
+                                                            <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
+                                                            <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                          {% csrf_token %}
+                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -354,22 +375,32 @@
 											<div class="thumbnail">
 												<!--span class="e-label"><div>Sale</div></span-->
 												<span class="service-link text-center" >
-                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="static/market/images/special-price.jpg">
+                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
 													<div class="list-inline">
 														<a href={{i.url }}><i class="fa fa-eye"></i></a>
 														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
 												<div class="caption" style="height: 170px;">
-													<div class="category" >
-                                                        <strong id="price0">￥{{i.price }}</strong>
-                                                        <p class="pull-right" id="rate0" style="color: #d43f3a;font-size: 20px">{{i.rate }}</p>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong no-newline">{{i.shop }}<strong class="num">  {{i.follow }}</strong>人关注</strong>
+													<div class="category" style="margin:0px">
+                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
+                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
+                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
+                                                        </strong>
+                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 15px">{{i.name }}</p>
+                                                        <strong class="mystrong no-newline">{{i.shop }}</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
+                                                        <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
                                                         <br>
-                                                         <a class="btn btn-default" role="button" href={{i.url }}>查看详情</a><span class="pull-right"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
+                                                            <div class="form-group">
+                                                                <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
+                                                             </div>
+                                                            <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
+                                                            <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+                                                          {% csrf_token %}
+                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -383,8 +414,8 @@
 						<nav>
 							<ul class="pagination">
 								<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-								<li><a href="#">1</a></li>
-								<li class="active"><a href="#">2</a></li>
+								<li class="active"><a href="#">1</a></li>
+								<li ><a href="#">2</a></li>
 								<li><a href="#">3</a></li>
 								<li><a href="#">4</a></li>
 								<li><a href="#">5</a></li>

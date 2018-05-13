@@ -107,7 +107,6 @@ def get_attribute(table):
 def get_product_detail(request):
     table = 'cellphone'
     sku = request.POST.get("sku", '')
-    print(sku)
     result = get_product_info(table,sku)
     temp = get_comment(table, sku)
     useful = temp[0]
