@@ -107,6 +107,7 @@ def get_attribute(table):
 def get_product_detail(request):
     table = 'cellphone'
     sku = request.POST.get("sku", '')
+    print(sku)
     result = get_product_info(table,sku)
     temp = get_comment(table, sku)
     useful = temp[0]
@@ -115,7 +116,6 @@ def get_product_detail(request):
     unreal_comments = temp[1]
     unreal = temp[0]
     unreal_rate = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
-    print('unreal_rate:'+unreal_rate)
     attributes = get_attribute(table)
     return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,
                               'unreal_comments':unreal_comments,'attributes':attributes,'unreal_rate':unreal_rate})

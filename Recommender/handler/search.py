@@ -14,10 +14,11 @@ FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
 
-def handle_sql_results(table,keywords,price1,price2):
+def handle_sql_results(table,user,keywords,price1,price2):
     #获取weight表中的参数，便于后面排序
-    sql = 'select rate,follow,comment,sentiment,brand_hot,sum,comment_score,hot_score from weight'
-    result = database_util.search_sql(sql, None)
+    sql = 'select rate,follow,comment,sentiment,brand_hot,sum,comment_score,hot_score from weight where user=%s'
+    result = database_util.search_sql(sql, user)
+    weight = {}
     if result[0] != -1:
         i = list(result[1])[0]
         sum = i[5]
@@ -28,6 +29,11 @@ def handle_sql_results(table,keywords,price1,price2):
         w_brand = float(i[4]) / sum
         comment_score = float(i[6])
         hot_score = float(i[7])
+        weight['rate'] = i[0]
+        weight['follow'] = i[1]
+        weight['comment'] = i[2]
+        weight['sentiment'] = i[3]
+        weight['brand_hot'] = i[4]
 
     # 进行sql查询并处理查询结果
     all_list = []
@@ -47,10 +53,11 @@ def handle_sql_results(table,keywords,price1,price2):
             all_list.append(j)
 
     # 排序之后输出结束
-    all_list.sort(key=itemgetter(10), reverse=True)
+    all_list.sort(key=itemgetter(12), reverse=True)
     item1 = []
     item2 = []
-    for i in range(18):
+    item3 = []
+    for i in range(27):
         if (i < len(all_list)):
             temp = {}
             temp["name"] = all_list[i][0]
@@ -67,10 +74,13 @@ def handle_sql_results(table,keywords,price1,price2):
             temp["shop"] = all_list[i][7]
             temp["follow"] = all_list[i][8]
             temp["sku"] = all_list[i][9]
+            temp['score'] = all_list[i][12]
             if i < 9:
                 item1.append(temp)
-            else:
+            elif i<18:
                 item2.append(temp)
+            else:
+                item3.append(temp)
 
     #获取热门品牌排名
     brands = []
@@ -92,16 +102,24 @@ def handle_sql_results(table,keywords,price1,price2):
     results = {}
     results['data1'] = item1
     results['data2'] = item2
+    results['data3'] = item3
     results['brands'] = brands
+    results['weight'] = weight
     return results
 
-def get_products(message):
-    keywords = message['keywords']
-    price1 = message['price1']
-    price2 = message['price2']
-    table = 'cellphone'
-    result = handle_sql_results(table, keywords,price1,price2)
-    return result
+
+@require_http_methods(["POST"])
+def reset_weight(request):
+    user = 'cj'
+    rate = int(request.POST.get('rate',''))
+    follow = int(request.POST.get('follow',''))
+    comment = int(request.POST.get('comment',''))
+    sentiment = int(request.POST.get('sentiment',''))
+    brand_hot = int(request.POST.get('brand_hot',''))
+    sum = rate+follow+comment+sentiment+brand_hot
+    sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s'
+    database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user])
+    return search_product(request)
 
 @require_http_methods(["POST"])
 def search_product(request):
@@ -110,9 +128,13 @@ def search_product(request):
     message['keywords'] = request.POST.get("keywords", '')
     message['price1'] = request.POST.get("price1", '')
     message['price2'] = request.POST.get("price2", '')
+
     if  message['price1'] =='':
         message['price1'] = 0
     if  message['price2'] =='':
         message['price2'] = 5000
-    results = get_products(message)
-    return render(request, "product.html",{'message':message,'brands':results['brands'],'data1':results['data1'],'data2':results['data2']})
+
+    table = 'cellphone'
+    user = 'cj'
+    results = handle_sql_results(table, user,message['keywords'],message['price1'],message['price2'])
+    return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})

@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^recommend_products', search.search_product),
     url(r'^product.html', search.search_product),
     url(r'^product_detail', product_detail.get_product_detail),
+    url(r'^reset_weight', search.reset_weight),
 ]
