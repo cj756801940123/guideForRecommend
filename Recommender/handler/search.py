@@ -13,8 +13,18 @@ import json
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
+def get_sql_result(table,keywords,price1,price2):
+    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '
+    if keywords == '':
+        item_sql = sql + table + ' where price>=%s and price<=%s;'
+        sql_result = database_util.search_sql(item_sql, [int(price1), int(price2)])
+    else:
+        item_sql = sql+table+' where match(description) against(%s in natural language mode) and price>=%s and price<=%s;'
+        sql_result = database_util.search_sql(item_sql, [keywords,int(price1), int(price2)])
+    return sql_result
 
-def handle_sql_results(table,user,keywords,price1,price2):
+
+def handle_sql_result(sql_result,table,user):
     #获取weight表中的参数，便于后面排序
     sql = 'select rate,follow,comment,sentiment,brand_hot,sum,comment_score,hot_score from weight where user=%s'
     result = database_util.search_sql(sql, user)
@@ -37,13 +47,7 @@ def handle_sql_results(table,user,keywords,price1,price2):
 
     # 进行sql查询并处理查询结果
     all_list = []
-    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '
-    if keywords == '':
-        item_sql = sql + table + ' where price>=%s and price<=%s;'
-        sql_result = database_util.search_sql(item_sql, [int(price1), int(price2)])
-    else:
-        item_sql = sql+table+' where match(description) against(%s in natural language mode) and price>=%s and price<=%s;'
-        sql_result = database_util.search_sql(item_sql, [keywords,int(price1), int(price2)])
+
     if sql_result[0]!=-1:
         temp = list(sql_result[1])
         for t in temp:
@@ -108,6 +112,16 @@ def handle_sql_results(table,user,keywords,price1,price2):
     results['weight'] = weight
     return results
 
+@require_http_methods(["POST"])
+def get_sale_product(request):
+    print("get sale product")
+    user = 'cj'
+    table = 'cellphone'
+    sql = " select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from "+table+" where price<avg_price"
+    sql_result = database_util.search_sql(sql,None)
+    results = handle_sql_result(sql_result, table, user)
+    return render(request, "product.html",{'weight': results['weight'],'results': results, 'user': user})
+
 
 @require_http_methods(["POST"])
 def reset_weight(request):
@@ -133,9 +147,11 @@ def search_product(request):
     if  message['price1'] =='':
         message['price1'] = 0
     if  message['price2'] =='':
-        message['price2'] = 5000
+        message['price2'] = 8000
 
     table = 'cellphone'
     user = 'cj'
-    results = handle_sql_results(table, user,message['keywords'],message['price1'],message['price2'])
-    return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})
+
+    sql_result = get_sql_result(table,message['keywords'],message['price1'],message['price2'])
+    results = handle_sql_result(sql_result,table,user)
+    return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results,'user':user})

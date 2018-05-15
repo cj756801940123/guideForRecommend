@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <ul class="list-inline pull-right">
-                                    <li><a href="#" id = 'user'><i class="fa fa-user"></i> 我的账号</a></li>
+                                    <li><a href="#" id = 'user'><i class="fa fa-user"></i> {{ user }}</a></li>
                                     <li><a href="#" ><i class="fa fa-heart-o"></i> 收藏夹</a></li>
                                     <li><a class="register" href="#" >登录</a></li>
                                     <li><a class="register" href="#" >注册</a></li>
@@ -212,12 +212,26 @@
                                     </form>
                                 </div>
                             </div>
+
                             <div class="single-add">
-								<h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>
-                                <h4 style="font-weight: 600">商品列表</h4>
-								<a href="#" class="btn btn-default" role="button">查看详情</a>
-								<span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>
-							</div>
+{#                                <form role="form" action="/sale_products" method="POST" class="registration-form">#}
+{#                                    <h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>#}
+{#                                    <h4 style="font-weight: 600">商品列表</h4>#}
+{#                                    <buttom class="btn btn-default" type="submit" role="button" >查看详情</buttom>#}
+{#                                    <span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>#}
+{#                                 {% csrf_token %}#}
+{#                                 </form>#}
+{#                                #}
+                              <form role="form" action="/sale_products" method="POST" class="registration-form">
+                                <div class="form-group">
+                                    <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
+                                 </div>
+                                <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
+                                <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
+
+                              {% csrf_token %}
+                             </form>
+                            </div>
 							<div class="well wedget footer-top">
 							 	<strong>Special Offers</strong>
 								<div class="heading-border b-color-6"></div>
@@ -267,7 +281,6 @@
 									
 								</ul>
 							</div>
-
 						</div> <!-- sidebar -->
 					</div>
 
@@ -282,11 +295,11 @@
 						</div> <!-- section title -->
 						
 						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-{#							<ol class="carousel-indicators">#}
-{#								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"><i class="fa fa-angle-left"></i></li>#}
-{#								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>#}
-{#								<li data-target="#carousel-example-generic" data-slide-to="2"><i class="fa fa-angle-right"></i></li>#}
-{#							</ol>#}
+							<ol class="carousel-indicators">
+								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"><i class="fa fa-angle-left"></i></li>
+								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>
+								<li data-target="#carousel-example-generic" data-slide-to="2"><i class="fa fa-angle-right"></i></li>
+							</ol>
 							<div class="carousel-inner" role="listbox">
 								<div class="item active">
                                     <div class="row">
@@ -347,7 +360,7 @@
                                                             <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
                                                             <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
                                                         </strong>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 15px">{{i.name }}</p>
+                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
                                                         <strong class="mystrong no-newline">{{i.shop }}</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
@@ -387,7 +400,7 @@
                                                             <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
                                                             <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
                                                         </strong>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 15px">{{i.name }}</p>
+                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
                                                         <strong class="mystrong no-newline">{{i.shop }}</strong>
                                                         <br>
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
