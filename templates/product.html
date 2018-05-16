@@ -45,12 +45,12 @@
                 color:#836FFF  !important;
             }
             .height-control{
-                width:100%;
-                overflow : hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
+                width:100% !important;;
+                overflow : hidden !important;
+                text-overflow: ellipsis !important;
+                display: -webkit-box !important;
                 -webkit-line-clamp: 2 !important;
-                -webkit-box-orient: vertical;
+                -webkit-box-orient: vertical !important;
             }
             .no-newline{
                 width:100%;
@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <ul class="list-inline pull-right">
-                                    <li><a href="#" id = 'user'><i class="fa fa-user"></i> {{ user }}</a></li>
+                                    <li><a href="#" id = 'user'><i class="fa fa-user"></i> {{ message.username }}</a></li>
                                     <li><a href="#" ><i class="fa fa-heart-o"></i> 收藏夹</a></li>
                                     <li><a class="register" href="#" >登录</a></li>
                                     <li><a class="register" href="#" >注册</a></li>
@@ -149,10 +149,10 @@
 							<div class="well wedget form-box">
 							 	<strong style="color: #5e5e5e">当前筛选条件</strong>
                                 <div >
-                                    <form role="form" action="/recommend_products" method="POST" class="registration-form">
-                                        <div class="form-group">
-                                            <input type="text" name="kind" id="kind" style="display:none;" placeholder="商品类别..." class="form-name form-control"  >
-                                        </div>
+                                    <form role="form" action="/products" method="GET" class="registration-form">
+{#                                        <div class="form-group">#}
+{#                                            <input type="text" name="kind" id="kind" style="display:none;" placeholder="商品类别..." class="form-name form-control"  >#}
+{#                                        </div>#}
                                         <div class="form-group">
                                             <input type="text" name="keywords" id="keywords" placeholder="搜索关键字..." class="form-last-name form-control"  >
                                         </div>
@@ -163,7 +163,8 @@
                                                     <input type="text" name="price2" id="price2" placeholder="最高价..." class="form-email form-control" style="width:47%;display:inline"    >
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>
+{#                                        <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>#}
+                                        <a href="#" id ="search-again"  class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</a>
                                         {% csrf_token %}
                                     </form>
                                 </div>
@@ -212,75 +213,15 @@
                                     </form>
                                 </div>
                             </div>
-
                             <div class="single-add">
-{#                                <form role="form" action="/sale_products" method="POST" class="registration-form">#}
-{#                                    <h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>#}
-{#                                    <h4 style="font-weight: 600">商品列表</h4>#}
-{#                                    <buttom class="btn btn-default" type="submit" role="button" >查看详情</buttom>#}
-{#                                    <span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>#}
-{#                                 {% csrf_token %}#}
-{#                                 </form>#}
-{#                                #}
                               <form role="form" action="/sale_products" method="POST" class="registration-form">
-                                <div class="form-group">
-                                    <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
-                                 </div>
+                                <h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>
+                                  <h4 style="font-weight: 600">商品列表</h4>
                                 <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
-                                <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
-
+                                <span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>
                               {% csrf_token %}
                              </form>
                             </div>
-							<div class="well wedget footer-top">
-							 	<strong>Special Offers</strong>
-								<div class="heading-border b-color-6"></div>
-								<ul class="media-list">
-									<li class="media">
-										<div class="media-left"><img src="static/market/images/featured-1.jpg" alt=""></div>
-										<div class="media-body">
-											<p class="media-heading">Lorem ipsum dolor</p>
-											<div class="category">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star-o"></i>
-											</div>
-											<strong>$899.99</strong>
-										</div>
-									</li>
-									<li class="media">
-										<div class="media-left"><img src="static/market/images/featured-1.jpg" alt=""></div>
-										<div class="media-body">
-											<p class="media-heading">Lorem ipsum dolor</p>
-											<div class="category">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star-o"></i>
-											</div>
-											<strong>$899.99</strong>
-										</div>
-									</li>
-									<li class="media">
-										<div class="media-left"><img src="static/market/images/featured-1.jpg" alt=""></div>
-										<div class="media-body">
-											<p class="media-heading">Lorem ipsum dolor</p>
-											<div class="category">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
-												<i class="fa fa-star-o"></i>
-											</div>
-											<strong>$899.99</strong>
-										</div>
-									</li>
-									
-								</ul>
-							</div>
 						</div> <!-- sidebar -->
 					</div>
 
@@ -288,24 +229,19 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="" >
-									<h1><span class="t-color-1"  style="margin-top: 0px;">Recommended</span> Products</h1>
-									<div class="heading-border b-color-1"></div>
+{#									<h1><span class="t-color-1"  style="margin-top: 0px;">Recommended</span> Products</h1>#}
+{#									<div class="heading-border b-color-1"></div>#}
 								</div>
 							</div>
 						</div> <!-- section title -->
 						
 						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"><i class="fa fa-angle-left"></i></li>
-								<li data-target="#carousel-example-generic" data-slide-to="1"><i class="fa fa-angle-right"></i></li>
-								<li data-target="#carousel-example-generic" data-slide-to="2"><i class="fa fa-angle-right"></i></li>
-							</ol>
-							<div class="carousel-inner" role="listbox">
+							<div class="carousel-inner" role="listbox" style="padding-top: 5px">
 								<div class="item active">
                                     <div class="row">
-                                        {% for i in results.data1 %}
+                                        {% for i in results.data %}
 										<div class="col-sm-4">
-											<div class="thumbnail">
+											<div class="thumbnail" style="padding-top: 0px;line-height: 1.32857143;">
 												<!--span class="e-label"><div>Sale</div></span-->
 												<span class="service-link text-center" >
                                                     <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
@@ -314,100 +250,21 @@
 														<a href={{i.url }}><i class="fa fa-link"></i></a>
 													</div>
 												</span>
-												<div class="caption" style="height: 170px;">
+												<div class="caption" style="height: 145px;">
 													<div class="category" style="margin:0px">
-                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
-                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
-                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
+                                                        <strong id="price0" style="font-size: 18px;line-height:1.43;">￥{{i.price }}
+                                                            <span style="text-decoration: line-through;font-size: 14px;line-height:1.43;">￥{{i.avg_price }}</span>
+
+                                                            <span class="pull-right" id="rate0" style="font-size: 18px;line-height:1.43;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
                                                         </strong>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
+                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;height: auto;font-size: 13px">{{i.name }}</p>
                                                         <strong class="mystrong no-newline">{{i.shop }}</strong>
-                                                        <br>
+                                                        <br >
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
                                                         <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
                                                         <br>
-                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
-                                                            <div class="form-group">
-                                                                <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
-                                                             </div>
-                                                            <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
-                                                            <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
-                                                          {% csrf_token %}
-                                                         </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-									</div>
-								</div>
-								<div class="item">
-									<div class="row">
-										{% for i in results.data2 %}
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<!--span class="e-label"><div>Sale</div></span-->
-												<span class="service-link text-center" >
-                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
-													<div class="list-inline">
-														<a href={{i.url }}><i class="fa fa-eye"></i></a>
-														<a href={{i.url }}><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption" style="height: 170px;">
-													<div class="category" style="margin:0px">
-                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
-                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
-                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
-                                                        </strong>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong no-newline">{{i.shop }}</strong>
-                                                        <br>
-                                                        <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
-                                                        <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
-                                                        <br>
-                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
-                                                            <div class="form-group">
-                                                                <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
-                                                             </div>
-                                                            <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
-                                                            <span class="pull-right" style="margin-top: 0px"><i class="fa fa-heart-o"></i> 加入收藏夹</span>
-                                                          {% csrf_token %}
-                                                         </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-									</div>
-								</div>
-								<div class="item">
-									<div class="row">
-										{% for i in results.data3 %}
-										<div class="col-sm-4">
-											<div class="thumbnail">
-												<!--span class="e-label"><div>Sale</div></span-->
-												<span class="service-link text-center" >
-                                                    <img class="img-responsive" id="image0" src={{ i.img }} alt="图片正在加载......">
-													<div class="list-inline">
-														<a href={{i.url }}><i class="fa fa-eye"></i></a>
-														<a href={{i.url }}><i class="fa fa-link"></i></a>
-													</div>
-												</span>
-												<div class="caption" style="height: 170px;">
-													<div class="category" style="margin:0px">
-                                                        <strong id="price0" style="font-size: 18px">￥{{i.price }}
-                                                            <span style="text-decoration: line-through;font-size: 14px">￥{{i.avg_price }}</span>
-                                                            <span class="pull-right" id="rate0" style="line-height: 16px;font-size: 16px;margin-top: 18px;color: #d43f3a;font-size: 18px">{{i.rate }}</span>
-                                                        </strong>
-                                                        <p class="height-control" style="color: #5e5e5e;margin: 0;padding:0;line-height: 20px;height: auto;font-size: 13px">{{i.name }}</p>
-                                                        <strong class="mystrong no-newline">{{i.shop }}</strong>
-                                                        <br>
-                                                        <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
-                                                        <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
-                                                        <br>
-                                                        <form role="form" action="/product_detail" method="POST" class="registration-form">
-                                                            <div class="form-group">
+                                                        <form role="form" action="/product_detail" method="POST" class="registration-form" >
+                                                            <div class="form-group" style="margin-bottom: 5px;">
                                                                 <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
                                                              </div>
                                                             <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
@@ -425,14 +282,16 @@
 						</div>
 						<!-- pagination -->
 						<nav>
-							<ul class="pagination">
+							<ul class="pagination" id="page">
+                                <li class=""><a href="#">首页</a></li>
 								<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li ><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+								<li class=""><a href="#"></a></li>
+								<li class="" ><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
 								<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                                <li class=""><a href="#">尾页</a></li>
 							</li>
 							</ul>
 						</nav>
@@ -493,19 +352,60 @@
         <script src="static/market/js/custom.js"></script>
 
         <script type="text/javascript">
-            var message = {{ message|safe}};
-            document.getElementById('kind').value = message['kind']
-            document.getElementById('keywords').value = message['keywords']
-            document.getElementById('price1').value = message['price1']
-            document.getElementById('price2').value = message['price2']
-            document.getElementById('user').value = 'cj'
+                var message = {{ message|safe}};
+                document.getElementById('kind').value = message['kind']
+                document.getElementById('keywords').value = message['keywords']
+                document.getElementById('price1').value = message['price1']
+                document.getElementById('price2').value = message['price2']
+                document.getElementById('user').value = message['username']
 
-            var weight = {{ weight|safe}};
-            document.getElementById('rate').value = weight['rate']
-            document.getElementById('comment').value = weight['comment']
-            document.getElementById('follow').value = weight['follow']
-            document.getElementById('brand_hot').value = weight['brand_hot']
-            document.getElementById('sentiment').value = weight['sentiment']
+                var weight = {{ weight|safe}};
+                document.getElementById('rate').value = weight['rate']
+                document.getElementById('comment').value = weight['comment']
+                document.getElementById('follow').value = weight['follow']
+                document.getElementById('brand_hot').value = weight['brand_hot']
+                document.getElementById('sentiment').value = weight['sentiment']
+
+                var cur_page = message['cur_page']
+                var page_no = message['page_no']
+                var path = window.location.pathname;
+                var url = path + '?keywords=' + message['keywords'] + '&price1=' + message['price1'] + '&price2=' + message['price2']
+                var li = document.getElementById('page').getElementsByTagName('li')
+                li[0].firstChild.href = url + '&cur_page=' + 1
+                if (cur_page > 1) {
+                    li[1].firstChild.href = url + '&cur_page=' + (Number(cur_page) - 1)
+                }
+                if (cur_page < page_no) {
+                    li[7].firstChild.href = url + '&cur_page=' + (Number(cur_page) + 1)
+                }
+                li[8].firstChild.href = url + '&cur_page=' + page_no
+                start = Math.floor((cur_page - 1) / 5)
+                for (var i = 1; i <= 5; i++) {
+                    li[i + 1].firstChild.href = url + '&cur_page=' + (start * 5 + i)
+                    if (start * 5 + i == cur_page) {
+                        li[i + 1].className = "active"
+                    }
+                    li[i + 1].firstChild.innerHTML = start * 5 + i
+                    if (start * 5 + i > page_no) {
+                        li[i + 1].style = 'display:none'
+                    }
+                }
+
+                var inpObj = document.getElementById("search-again");
+                alert(inpObj.href)
+                inpObj.onClick = function () {
+                    alert(" success ~ ");
+                    alert(inpObj.href)
+                }
+
+{#            function search(href)#}
+{#            {#}
+{#                    alert('hhaha')#}
+{#                    var keywords = document.getElementById('keywords').innerHTML#}
+{#                    var price1 = document.getElementById('price1').innerHTML#}
+{#                    var price2 = document.getElementById('price2').innerHTML#}
+{#                    href = 'product?keywords='+keywords+'price1='+price1+'price2='+price2+'cur_page='+1#}
+{#            }#}
         </script>
     </body>
 </html>
