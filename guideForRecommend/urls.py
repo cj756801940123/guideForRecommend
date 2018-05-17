@@ -25,10 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
     url(r'^products', search.get_products),
-    # url(r'^more_product', search.more_products),
-    # url(r'^product.html', search.search_product),
     url(r'^product_detail', product_detail.get_product_detail),
     url(r'^reset_weight', search.reset_weight),
-    url(r'^sale_products', search.get_sale_product),
-    url(r'^more_sale_products', search.more_sale_product),
+    url(r'^sale_products', search.get_sale_products),
 ]

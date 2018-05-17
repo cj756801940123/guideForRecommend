@@ -150,22 +150,18 @@
 							 	<strong style="color: #5e5e5e">当前筛选条件</strong>
                                 <div >
                                     <form role="form" action="/products" method="GET" class="registration-form">
-{#                                        <div class="form-group">#}
-{#                                            <input type="text" name="kind" id="kind" style="display:none;" placeholder="商品类别..." class="form-name form-control"  >#}
-{#                                        </div>#}
                                         <div class="form-group">
-                                            <input type="text" name="keywords" id="keywords" placeholder="搜索关键字..." class="form-last-name form-control"  >
+                                            <input type="text" name="keywords" id="keywords" placeholder="搜索关键字..."   class="form-last-name form-control"  value={{message.keywords}}>
                                         </div>
                                         <div class="form-group">
                                             <div class="f1" >
-                                                    <input type="text" name="price1" id="price1" placeholder="最低价..." class="form-email form-control " style="width:47%;display:inline"   >
+                                                    <input type="text" name="price1" id="price1" placeholder="最低价..." class="form-email form-control " style="width:47%;display:inline"  value={{message.price1}} >
                                                   <em>-</em>
-                                                    <input type="text" name="price2" id="price2" placeholder="最高价..." class="form-email form-control" style="width:47%;display:inline"    >
+                                                    <input type="text" name="price2" id="price2" placeholder="最高价..." class="form-email form-control" style="width:47%;display:inline"   value={{message.price2}}>
                                             </div>
                                         </div>
-{#                                        <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>#}
-                                        <a href="#" id ="search-again"  class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</a>
-                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default btn-block" style="font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">重新搜索</button>
+                                       {% csrf_token %}
                                     </form>
                                 </div>
 							</div>
@@ -194,19 +190,19 @@
                                             <input type="text" name="kind" id="kind" style="display:none;" placeholder="商品类别..." class="form-name form-control"  >
                                         </div>
                                          <div class="form-group">
-                                             <span>好评率：</span><input type="text" name="rate" style="width: 73%" id="rate" placeholder="好评率..." class="form-last-name myform"  >
+                                             <span>好评率：</span><input type="text" name="rate" style="width: 73%" id="rate" placeholder="好评率..." class="form-last-name myform"  value={{weight.rate}} >
                                         </div>
                                         <div class="form-group">
-                                            <span>店家关注度：</span><input type="text" name="follow" style="width: 60%" id="follow" placeholder="店家热门程度..." class="form-last-name myform"  >
+                                            <span>店家关注度：</span><input type="text" name="follow" style="width: 60%" id="follow" placeholder="店家热门程度..." class="form-last-name myform" value={{weight.follow}}  >
                                         </div>
                                         <div class="form-group">
-                                            <span>商品销量：</span><input type="text" name="comment" style="width: 66%" id="comment" placeholder="商品销量..." class="form-last-name myform"  >
+                                            <span>商品销量：</span><input type="text" name="comment" style="width: 66%" id="comment" placeholder="商品销量..." class="form-last-name myform"  value={{weight.comment}} >
                                         </div>
                                          <div class="form-group">
-                                             <span>评论情感值：</span><input type="text" name="sentiment" style="width: 60%" id="sentiment" placeholder="评论情感值..." class="form-last-name myform"  >
+                                             <span>评论情感值：</span><input type="text" name="sentiment" style="width: 60%" id="sentiment" placeholder="评论情感值..." class="form-last-name myform" value={{weight.sentiment}} >
                                         </div>
                                         <div class="form-groupphoto">
-                                            <span>品牌关注度：</span><input type="text" name="brand_hot" style="width: 60%" id="brand_hot" placeholder="品牌热门程度..." class="form-last-name myform"  >
+                                            <span>品牌关注度：</span><input type="text" name="brand_hot" style="width: 60%" id="brand_hot" placeholder="品牌热门程度..." class="form-last-name myform"  value={{weight.brand_hot}} >
                                         </div>
                                         <button type="submit" class="btn btn-default btn-block" style="margin-top:10px;font-weight: bold;border-bottom: 2px solid #8AAA63;color: #fff;background-color: #8ec63f">确认设置</button>
                                         {% csrf_token %}
@@ -214,10 +210,14 @@
                                 </div>
                             </div>
                             <div class="single-add">
-                              <form role="form" action="/sale_products" method="POST" class="registration-form">
-                                <h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>
+                              <form role="form" action="/sale_products" method="GET" class="registration-form">
+                                  <input type="text" name="keywords"  class="form-last-name form-control" style="display:none" value={{message.keywords}}>
+                                  <input type="text" name="price1" class="form-email form-control " style="display:none"  value={{message.price1}} >
+                                  <input type="text" name="price2" class="form-email form-control" style="display:none"   value={{message.price2}}>
+
+                                  <h4 style="font-weight: 600">查看 <span style="font-weight: 600">降价</span></h4>
                                   <h4 style="font-weight: 600">商品列表</h4>
-                                <button class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
+                                <button href="sale_products?cur_page=1" class="btn btn-default" type="submit" role="button" style="margin-top: 0px">查看详情</button>
                                 <span class="img-add"><img class="img-responsive" src="static/market/images/red-tablet.png" width="120px" alt="" /></span>
                               {% csrf_token %}
                              </form>
@@ -226,15 +226,6 @@
 					</div>
 
 					<div class="col-sm-9">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="" >
-{#									<h1><span class="t-color-1"  style="margin-top: 0px;">Recommended</span> Products</h1>#}
-{#									<div class="heading-border b-color-1"></div>#}
-								</div>
-							</div>
-						</div> <!-- section title -->
-						
 						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner" role="listbox" style="padding-top: 5px">
 								<div class="item active">
@@ -354,17 +345,16 @@
         <script type="text/javascript">
                 var message = {{ message|safe}};
                 document.getElementById('kind').value = message['kind']
-                document.getElementById('keywords').value = message['keywords']
-                document.getElementById('price1').value = message['price1']
-                document.getElementById('price2').value = message['price2']
-                document.getElementById('user').value = message['username']
-
-                var weight = {{ weight|safe}};
-                document.getElementById('rate').value = weight['rate']
-                document.getElementById('comment').value = weight['comment']
-                document.getElementById('follow').value = weight['follow']
-                document.getElementById('brand_hot').value = weight['brand_hot']
-                document.getElementById('sentiment').value = weight['sentiment']
+{#                document.getElementById('keywords').value = message['keywords']#}
+{#                document.getElementById('price1').value = message['price1']#}
+{#                document.getElementById('price2').value = message['price2']#}
+{#                document.getElementById('user').value = message['username']#}
+{#                var weight = {{ weight|safe}};#}
+{#                document.getElementById('rate').value = weight['rate']#}
+{#                document.getElementById('comment').value = weight['comment']#}
+{#                document.getElementById('follow').value = weight['follow']#}
+{#                document.getElementById('brand_hot').value = weight['brand_hot']#}
+{#                document.getElementById('sentiment').value = weight['sentiment']#}
 
                 var cur_page = message['cur_page']
                 var page_no = message['page_no']
@@ -391,21 +381,6 @@
                     }
                 }
 
-                var inpObj = document.getElementById("search-again");
-                alert(inpObj.href)
-                inpObj.onClick = function () {
-                    alert(" success ~ ");
-                    alert(inpObj.href)
-                }
-
-{#            function search(href)#}
-{#            {#}
-{#                    alert('hhaha')#}
-{#                    var keywords = document.getElementById('keywords').innerHTML#}
-{#                    var price1 = document.getElementById('price1').innerHTML#}
-{#                    var price2 = document.getElementById('price2').innerHTML#}
-{#                    href = 'product?keywords='+keywords+'price1='+price1+'price2='+price2+'cur_page='+1#}
-{#            }#}
         </script>
     </body>
 </html>

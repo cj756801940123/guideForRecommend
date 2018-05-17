@@ -14,15 +14,21 @@ from django.contrib.sessions.models import Session
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
-def get_sql_result(table,keywords,price1,price2):
-    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '
-    if keywords == '':
-        item_sql = sql + table + ' where price>=%s and price<=%s;'
-        sql_result = database_util.search_sql(item_sql, [int(price1), int(price2)])
-    else:
-        item_sql = sql+table+' where match(description) against(%s in natural language mode) and price>=%s and price<=%s;'
-        sql_result = database_util.search_sql(item_sql, [keywords,int(price1), int(price2)])
-    return sql_result
+def get_sql(table,keywords,price1,price2,type):
+    data = []
+    sql =  'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '+table+' where 1=1  '
+    if keywords != '':
+        sql = sql + ' and match(description) against(%s in natural language mode) '
+        data.append(keywords)
+    if price1!='':
+        sql = sql + ' and price>=%s '
+        data.append(int(price1))
+    if price2!='':
+        sql = sql + ' and price<=%s '
+        data.append(int(price2))
+    if type == 'sale_products':
+        sql = sql +' and price<avg_price'
+    return database_util.search_sql(sql,data)
 
 
 def handle_sql_result(sql_result,table,user,cur_page):
@@ -109,28 +115,44 @@ def handle_sql_result(sql_result,table,user,cur_page):
     results['page_no'] = page_no
     return results
 
-#获取降价商品
-@require_http_methods(["POST"])
-def get_sale_product(request):
-    user = 'cj'
-    table = 'cellphone'
-    sql = " select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from "+table+" where price<avg_price"
-    sql_result = database_util.search_sql(sql,None)
-    results = handle_sql_result(sql_result, table, user)
-    return render(request, "product.html",{'weight': results['weight'],'results': results, 'user': user})
 
+#获取降价商品
 @require_http_methods(["GET"])
-def more_sale_product(request):
+def get_sale_products(request):
     message = {}
-    message['keywords'] = request.session['keywords']
-    message['price1'] = request.session['price1']
-    message['price2'] = request.session['price2']
-    message['username'] = request.session['username']
+    message['keywords'] = request.GET.get("keywords", '')
+    message['price1'] = request.GET.get("price1", '')
+    message['price2'] = request.GET.get("price2", '')
+    message['cur_page'] = request.GET.get("cur_page", 1)
+    username = 'cj'
     table = 'cellphone'
-    sql = " select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from "+table+" where price<avg_price"
-    sql_result = database_util.search_sql(sql,None)
-    results = handle_sql_result(sql_result, table, message['user'])
-    return render(request, "product.html",{'weight': results['weight'],'results': results})
+    # message['username'] = request.session['username']
+
+    sql_result = get_sql(table, message['keywords'], message['price1'], message['price2'], 'sale_products')
+    results = handle_sql_result(sql_result, table, username,message['cur_page'])
+    message['page_no'] = results['page_no']
+    message['username'] = username
+    return render(request, "product.html",{'weight': results['weight'],'message':message,'results': results})
+
+
+#在form中搜索商品
+@require_http_methods(["GET"])
+def get_products(request):
+    message = {}
+    message['keywords'] = request.GET.get("keywords", '')
+    message['price1'] = request.GET.get("price1", '')
+    message['price2'] = request.GET.get("price2", '')
+    message['cur_page'] = request.GET.get("cur_page", 1)
+    table = 'cellphone'
+    username = 'cj'
+    # request.session['username'] = user
+
+    sql_result = get_sql(table,message['keywords'],message['price1'],message['price2'],'products')
+    results = handle_sql_result(sql_result,table,username,1)
+    message['page_no'] = results['page_no']
+    message['username'] = username
+    return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})
+
 
 #用户自定义参数权重
 @require_http_methods(["POST"])
@@ -145,44 +167,3 @@ def reset_weight(request):
     sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s'
     database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user])
     return search_product(request)
-
-#在form中搜索商品
-@require_http_methods(["GET"])
-def get_products(request):
-    message = {}
-    # message['kind'] = request.POST.get("kind", '')
-    message['keywords'] = request.POST.get("keywords", '')
-    message['price1'] = request.POST.get("price1", '')
-    message['price2'] = request.POST.get("price2", '')
-    message['cur_page'] = request.POST.get("cur_page", 1)
-    print(message)
-    # message['cur_page'] = 1
-    table = 'cellphone'
-    user = 'cj'
-    # request.session['username'] = user
-    if  message['price1'] =='':
-        message['price1'] = 0
-    if  message['price2'] =='':
-        message['price2'] = 8000
-
-    sql_result = get_sql_result(table,message['keywords'],message['price1'],message['price2'])
-    results = handle_sql_result(sql_result,table,user,1)
-    message['page_no'] = results['page_no']
-    return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})
-
-#翻页显示
-@require_http_methods(["GET"])
-def more_products(request):
-    message = {}
-    message['keywords'] =  request.GET.get('keywords')
-    message['price1'] = request.GET.get('price1')
-    message['price2'] = request.GET.get('price2')
-    message['cur_page'] = request.GET.get('cur_page')
-    # message['username'] = request.session['username']
-    username = 'cj'
-    table = 'cellphone'
-
-    sql_result = get_sql_result(table, message['keywords'], message['price1'], message['price2'])
-    results = handle_sql_result(sql_result, table,username,message['cur_page'])
-    message['page_no'] = results['page_no']
-    return render(request, "product.html", {'weight': results['weight'], 'message': message, 'results': results})
