@@ -214,15 +214,25 @@
                                         </div>
                                         <hr>
                                         {% endfor %}
+                                        <nav style="margin-bottom: 70px">
+                                            <ul class="pagination pull-right"   id="page">
+                                                <li class=""><a href="#">首页</a></li>
+                                                <li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class="" ><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class="" ><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li class=""><a href="#"></a></li>
+                                                <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                                                <li class=""><a href="#">尾页</a></li>
+                                            </ul>
+						                </nav>
                                     </div>
-{#									<ul class="list-ver">#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#										<li><i class="fa fa-check"></i>Mutat voluptaria mnesarchum impetus</li>#}
-{#									</ul>#}
                                 </div>
 								<div role="tabpanel" class="tab-pane" id="additional-info" style="padding: 20px">
                                     <div class="comment-info J-comment-info" >
@@ -230,7 +240,7 @@
                                              <div class="row">
                                                 <div class="col-sm-2 " style="padding-left: 20px">
                                                       <h5 style="padding-left:15px;color:#556273;margin:0px;margin-top: 5px">刷单评论比率 </h5>
-                                                      <strong style="color: #d43f3a;font-size: 40px;padding-left:15px;padding-top: 0">{{ unreal_rate }}</strong>
+                                                      <strong style="color: #d43f3a;font-size: 40px;padding-left:15px;padding-top: 0">{{ message.unreal_rate }}</strong>
                                                 </div>
                                                 <div class="col-sm-10 category">
                                                     <p style="color:#556273;font-size: 20px;">用户最关注属性</p>
@@ -290,14 +300,6 @@
 									</ul>
                                 </div>
 							</div>
-							<nav>
-							  	<ul class="pager">
-									<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-									<li class="center-block"><a href="#"><i class="fa fa-th"></i></a></li>
-									<li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
-							  	</ul>
-							</nav>
-							
 						</div>
 					</div>
 				</div>
@@ -362,6 +364,33 @@
                 var li = ul[i].getElementsByTagName('i')
                 for(var j=star;j<5;j++){
                     li[j].className = "fa fa-star-o"
+                }
+            }
+
+            var message = {{ message|safe}};
+            var cur_page = message['cur_page']
+            var sku = message['sku']
+            var page_no = message['page_no']
+            var path = window.location.pathname;
+            var url = path+'?sku='+ message['sku']
+            var li = document.getElementById('page').getElementsByTagName('li')
+            li[0].firstChild.href = url + '&cur_page=' + 1
+            if (cur_page > 1) {
+                li[1].firstChild.href = url + '&cur_page=' + (Number(cur_page) - 1)
+            }
+            if (cur_page < page_no) {
+                li[12].firstChild.href = url + '&cur_page=' + (Number(cur_page) + 1)
+            }
+            li[13].firstChild.href = url + '&cur_page=' + page_no
+            start = Math.floor((cur_page - 1) / 10)
+            for (var i = 1; i <= 10; i++) {
+                li[i + 1].firstChild.href = url + '&cur_page=' + (start * 10 + i)
+                if (start * 10 + i == cur_page) {
+                    li[i + 1].className = "active"
+                }
+                li[i + 1].firstChild.innerHTML = start * 10 + i
+                if (start * 10 + i > page_no) {
+                    li[i + 1].style = 'display:none'
                 }
             }
         </script>

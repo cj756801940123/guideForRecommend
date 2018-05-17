@@ -254,7 +254,7 @@
                                                         <strong class="num">{{i.comment }}</strong><strong class="mystrong ">条评价</strong>
                                                         <strong class="num " style="float: right;margin-top: 2px">  {{i.follow }}<strong class="mystrong">人关注店铺</strong></strong>
                                                         <br>
-                                                        <form role="form" action="/product_detail" method="POST" class="registration-form" >
+                                                        <form role="form" action="/product_detail" method="GET" class="registration-form" >
                                                             <div class="form-group" style="margin-bottom: 5px;">
                                                                 <input type="text" name="sku" id="sku" style="display:none;" value={{i.sku}} placeholder="商品类别..." class="form-name form-control"  >
                                                              </div>
@@ -277,6 +277,11 @@
                                 <li class=""><a href="#">首页</a></li>
 								<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 								<li class=""><a href="#"></a></li>
+								<li class="" ><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
+								<li class=""><a href="#"></a></li>
+                                <li class=""><a href="#"></a></li>
 								<li class="" ><a href="#"></a></li>
 								<li class=""><a href="#"></a></li>
 								<li class=""><a href="#"></a></li>
@@ -344,18 +349,6 @@
 
         <script type="text/javascript">
                 var message = {{ message|safe}};
-                document.getElementById('kind').value = message['kind']
-{#                document.getElementById('keywords').value = message['keywords']#}
-{#                document.getElementById('price1').value = message['price1']#}
-{#                document.getElementById('price2').value = message['price2']#}
-{#                document.getElementById('user').value = message['username']#}
-{#                var weight = {{ weight|safe}};#}
-{#                document.getElementById('rate').value = weight['rate']#}
-{#                document.getElementById('comment').value = weight['comment']#}
-{#                document.getElementById('follow').value = weight['follow']#}
-{#                document.getElementById('brand_hot').value = weight['brand_hot']#}
-{#                document.getElementById('sentiment').value = weight['sentiment']#}
-
                 var cur_page = message['cur_page']
                 var page_no = message['page_no']
                 var path = window.location.pathname;
@@ -366,21 +359,20 @@
                     li[1].firstChild.href = url + '&cur_page=' + (Number(cur_page) - 1)
                 }
                 if (cur_page < page_no) {
-                    li[7].firstChild.href = url + '&cur_page=' + (Number(cur_page) + 1)
+                    li[12].firstChild.href = url + '&cur_page=' + (Number(cur_page) + 1)
                 }
-                li[8].firstChild.href = url + '&cur_page=' + page_no
-                start = Math.floor((cur_page - 1) / 5)
-                for (var i = 1; i <= 5; i++) {
-                    li[i + 1].firstChild.href = url + '&cur_page=' + (start * 5 + i)
-                    if (start * 5 + i == cur_page) {
+                li[13].firstChild.href = url + '&cur_page=' + page_no
+                start = Math.floor((cur_page - 1) / 10)
+                for (var i = 1; i <= 10; i++) {
+                    li[i + 1].firstChild.href = url + '&cur_page=' + (start * 10 + i)
+                    if (start * 10 + i == cur_page) {
                         li[i + 1].className = "active"
                     }
-                    li[i + 1].firstChild.innerHTML = start * 5 + i
-                    if (start * 5 + i > page_no) {
+                    li[i + 1].firstChild.innerHTML = start * 10 + i
+                    if (start * 10 + i > page_no) {
                         li[i + 1].style = 'display:none'
                     }
                 }
-
         </script>
     </body>
 </html>

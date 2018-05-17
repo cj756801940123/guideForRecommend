@@ -41,12 +41,17 @@ def get_product_info(table,sku):
         result["sentiment"] = int(temp[11])
     return result
 
-def get_comment(table,sku):
+def get_comment(table,sku,cur_page):
     useful_file = DATA_PATH+table+'/score_comments/'+sku+'.txt'
+    count = 0;
+    start = (int(cur_page) - 1) * 10 + 1
     try:
         file = open(useful_file, "r", encoding='utf-8')
         useful_comments = []
         for each_line in file:
+            count += 1
+            if count<start or count>start+9:
+                continue
             temp = {}
             index = each_line.index(' ')
             score = each_line[0:index]
@@ -63,7 +68,11 @@ def get_comment(table,sku):
         print('product_detail get_comment err:'+str(err))
     finally:
         file.close()
-    return len(useful_comments),useful_comments
+
+    page_no = int(count / 10)
+    if count % 10 > 0:
+        page_no += 1
+    return count,useful_comments,page_no
 
 def get_unreal_comment(table,sku):
     unreal_file = DATA_PATH+table+'/unreal_comments/'+sku+'.txt'
@@ -103,19 +112,23 @@ def get_attribute(table):
     return attribute_words
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def get_product_detail(request):
     table = 'cellphone'
-    sku = request.POST.get("sku", '')
-    result = get_product_info(table,sku)
-    temp = get_comment(table, sku)
+    message = {}
+    message['sku'] = request.GET.get("sku", '')
+    message['cur_page'] = request.GET.get("cur_page", 1)
+
+    result = get_product_info(table,message['sku'])
+    temp = get_comment(table, message['sku'],message['cur_page'])
     useful = temp[0]
     score_comments = temp[1]
-    temp = get_unreal_comment(table, sku)
+    message['page_no'] = temp[2]
+    temp = get_unreal_comment(table, message['sku'])
     unreal_comments = temp[1]
     unreal = temp[0]
-    unreal_rate = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
+    message['unreal_rate'] = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
     attributes = get_attribute(table)
     return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,
-                              'unreal_comments':unreal_comments,'attributes':attributes,'unreal_rate':unreal_rate})
+                              'unreal_comments':unreal_comments,'attributes':attributes,'message':message})
 
