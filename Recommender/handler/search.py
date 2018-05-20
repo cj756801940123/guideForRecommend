@@ -69,6 +69,8 @@ def handle_sql_result(sql_result,table,user,cur_page):
         page_no += 1
     item = []
     cur_page = int(cur_page)
+    print(cur_page)
+    print('start'+str(cur_page*9-9))
     for i in range(cur_page*9-9,9*cur_page):
         if (i >= len(all_list)):
             break
@@ -90,6 +92,7 @@ def handle_sql_result(sql_result,table,user,cur_page):
         temp['score'] = all_list[i][13]
         temp['avg_price'] = all_list[i][12]
         item.append(temp)
+        # print(item)
 
     #获取热门品牌排名
     brands = []
@@ -148,7 +151,7 @@ def get_products(request):
     # request.session['username'] = user
 
     sql_result = get_sql(table,message['keywords'],message['price1'],message['price2'],'products')
-    results = handle_sql_result(sql_result,table,username,1)
+    results = handle_sql_result(sql_result,table,username,message['cur_page'] )
     message['page_no'] = results['page_no']
     message['username'] = username
     return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})
@@ -166,4 +169,4 @@ def reset_weight(request):
     sum = rate+follow+comment+sentiment+brand_hot
     sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s'
     database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user])
-    return search_product(request)
+    return get_products(request)

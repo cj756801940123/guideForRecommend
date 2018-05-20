@@ -46,7 +46,8 @@ def get_comment(table,sku,cur_page):
     count = 0;
     start = (int(cur_page) - 1) * 10 + 1
     try:
-        file = open(useful_file, "r", encoding='utf-8')
+        if os.path.exists(useful_file):
+            file = open(useful_file, "r", encoding='utf-8')
         useful_comments = []
         for each_line in file:
             count += 1
@@ -67,7 +68,8 @@ def get_comment(table,sku,cur_page):
     except Exception as err:
         print('product_detail get_comment err:'+str(err))
     finally:
-        file.close()
+        if os.path.exists(useful_file):
+            file.close()
 
     page_no = int(count / 10)
     if count % 10 > 0:
@@ -127,7 +129,10 @@ def get_product_detail(request):
     temp = get_unreal_comment(table, message['sku'])
     unreal_comments = temp[1]
     unreal = temp[0]
-    message['unreal_rate'] = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
+    if unreal==0:
+        message['unreal_rate'] = 0
+    else:
+        message['unreal_rate'] = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
     attributes = get_attribute(table)
     return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,
                               'unreal_comments':unreal_comments,'attributes':attributes,'message':message})
