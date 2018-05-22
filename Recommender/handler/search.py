@@ -2,15 +2,11 @@
 # -*- coding:utf-8 -*-
 import os
 from operator import itemgetter
-from django.http import JsonResponse
+# from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render
 from Recommender.handler import database_util
-from Recommender.handler import file_util
-from Recommender.handler import similarity_util
-import jieba
-import json
-from django.contrib.sessions.models import Session
+# from django.contrib.sessions.models import Session
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
@@ -130,16 +126,18 @@ def handle_sql_result(sql_result,user,cur_page):
 @require_http_methods(["GET"])
 def get_sale_products(request):
     message = {}
+    global table
+    table = request.session["kind"]
     message['keywords'] = request.GET.get("keywords", '')
     message['price1'] = request.GET.get("price1", '')
     message['price2'] = request.GET.get("price2", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
-    username = 'cj'
+    message['username'] = request.session['username']
+    message['kind'] = table
 
     sql_result = get_sql(message['keywords'], message['price1'], message['price2'], 'sale_products')
-    results = handle_sql_result(sql_result,username,message['cur_page'])
+    results = handle_sql_result(sql_result,message['username'],message['cur_page'])
     message['page_no'] = results['page_no']
-    message['username'] = username
     return render(request, "product.html",{'weight': results['weight'],'message':message,'results': results})
 
 
@@ -147,14 +145,16 @@ def get_sale_products(request):
 @require_http_methods(["GET"])
 def get_products(request):
     message = {}
+    global table
+    username = 'cj'
+    table = request.GET.get("table", table)
+    request.session['kind'] = table
+    request.session['username'] = username
     message['keywords'] = request.GET.get("keywords", '')
     message['price1'] = request.GET.get("price1", '')
     message['price2'] = request.GET.get("price2", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
-    global table
-    table = request.GET.get("table", table)
-    username = 'cj'
-
+    message['kind'] = table
     sql_result = get_sql(message['keywords'],message['price1'],message['price2'],'products')
     results = handle_sql_result(sql_result,username,message['cur_page'] )
     message['page_no'] = results['page_no']
@@ -163,14 +163,14 @@ def get_products(request):
 
 
 #用户自定义参数权重
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def reset_weight(request):
     user = 'cj'
-    rate = int(request.POST.get('rate',''))
-    follow = int(request.POST.get('follow',''))
-    comment = int(request.POST.get('comment',''))
-    sentiment = int(request.POST.get('sentiment',''))
-    brand_hot = int(request.POST.get('brand_hot',''))
+    rate = int(request.GET.get('rate',''))
+    follow = int(request.GET.get('follow',''))
+    comment = int(request.GET.get('comment',''))
+    sentiment = int(request.GET.get('sentiment',''))
+    brand_hot = int(request.GET.get('brand_hot',''))
     sum = rate+follow+comment+sentiment+brand_hot
     sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s and kind=%s'
     database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user,table])

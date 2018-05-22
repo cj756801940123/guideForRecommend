@@ -10,10 +10,12 @@ from Recommender.handler import file_util
 from Recommender.handler import similarity_util
 import jieba
 import json
+from django.shortcuts import render
+from django.shortcuts import render,render_to_response
+from django.http import HttpResponse,HttpResponseRedirect
 
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
-
 table = 'computer'
 
 def get_product_info(sku):
@@ -26,7 +28,7 @@ def get_product_info(sku):
     if sql_result[0]!=-1:
         temp = list(sql_result[1][0])
         result["name"] = temp[0]
-        result["price"] = temp[1]
+        result["price"] = round(float(temp[1]),1)
         result["img"] = temp[2]
         result["address"] = temp[3]
         result["rate"] = str( round(temp[4]*100,2))+'%'
@@ -39,9 +41,11 @@ def get_product_info(sku):
         result["shop"] = temp[7]
         result["follow"] = temp[8]
         result["sku"] = temp[9]
-        result["avg_price"] = temp[10]
+        result["avg_price"] = round(float(temp[10]),1)
         result["sentiment"] = int(temp[11])
-        result["max_price"] = float(temp[12])
+        result["max_price"] = round(float(temp[12]),1)
+
+        print(result)
     return result
 
 def get_comment(sku,cur_page):
@@ -119,13 +123,15 @@ def get_attribute():
 
 @require_http_methods(["GET"])
 def get_product_detail(request):
-    # table = 'cellphone'
+    global table
+    table = request.session["kind"]
     message = {}
     message['sku'] = request.GET.get("sku", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
-
+    message['username'] = request.session['username']
     result = get_product_info(message['sku'])
     temp = get_comment(message['sku'],message['cur_page'])
+    message['kind'] = table
     useful = temp[0]
     score_comments = temp[1]
     message['page_no'] = temp[2]

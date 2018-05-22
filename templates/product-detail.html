@@ -15,6 +15,14 @@
                 height: 14px;
                 background: url(//static.360buyimg.com/item/unite/1.0.0/components/default/comment/i/star.png) no-repeat;
             }
+            .price{
+                vertical-align: middle;
+                padding:5px;
+                width:500px;
+                height: 14px;
+                border-style: none none solid;
+                border-width: 0 0 2px;
+            }
         </style>
     </head>   
 	<body>
@@ -31,7 +39,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <ul class="list-inline pull-right">
-                                    <li><a href="#" ><i class="fa fa-user"></i> 我的账号</a></li>
+                                    <li><a href="#" ><i class="fa fa-user"></i> {{ message.username }}</a></li>
                                     <li><a href="#" ><i class="fa fa-heart-o"></i> 收藏夹</a></li>
                                     <li><a class="register" href="#" >登录</a></li>
                                     <li><a class="register" href="#" >注册</a></li>
@@ -59,29 +67,20 @@
 
 								<!-- Collect the nav links, forms, and other content for toggling -->
                                 <div class="row">
-								<div class="col-sm-9 collapse navbar-collapse" id="header-bottom">
+                                <div class="col-sm-9 collapse navbar-collapse" id="header-bottom">
 									<ul class="nav navbar-nav">
-										<li class="active"><a href="#" class="dropdown-toggle"  onmouseover="this.style.color='white'" onmouseout="this.style.color='#FFB90F'" style="text-align: center;color:#FFB90F;font-size:18px;width: 100px;font-weight: 300" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
-											<ul class="dropdown-menu">
-												<li><a href="login.html">安卓</a></li>
-												<li><a href="index-2.html">苹果</a></li>
-											</ul>
+										<li class="active"><a id='cellphone' href="products?table=cellphone&cur_page=1"  style="text-align: center;color:#FFFFF0;font-size:18px;width: 100px;font-weight: 300" >手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
 										</li>
-										<li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">电脑</a>
-											<ul class="dropdown-menu">
-												<li><a href="product.html">平板</a></li>
-												<li><a href="product-detail.html">手提</a></li>
-												<li><a href="new-product.html">台式</a></li>
-											</ul>
+										<li><a id='computer' href="products?table=computer&cur_page=1"  style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  >电脑</a>
 										</li>
-                                        <li><a href="about-us.html" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300">电器</a> </li>
+                                        <li><a href="#" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300">电器</a> </li>
 
-                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
+                                        <li><a href="#" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
 											<ul class="dropdown-menu">
-                                                <li><a href="product-detail.html">底妆</a></li>
-												<li><a href="product.html">眼妆</a></li>
-												<li><a href="new-product.html">唇妆</a></li>
-												<li><a href="new-product.html">香水</a></li>
+                                                <li><a href="#">底妆</a></li>
+												<li><a href="#">眼妆</a></li>
+												<li><a href="#">唇妆</a></li>
+												<li><a href="#">香水</a></li>
 											</ul>
 										</li>
 
@@ -131,18 +130,25 @@
 								</li>
 								<li>4 Reviews / Add Your Review </li>
 								<li>Avialability : In Stock</li>
+                                <li><i class="fa fa-heart-o"></i> 加入收藏夹</li>
 							</ul>
-                            <ul class="list-inline wish-email">
-								<li><i class="fa fa-heart-o"></i> 加入收藏夹</li>
-							    </ul>
-                            <div class="currency">￥{{ result.price }}<span>历史平均价格 ￥{{ result.avg_price }}</span></div>
+
+
+                            <div style="margin-bottom:5px">
+                                <div class="currency"  style="color:#fc6567;margin:10px auto;font-size: 18px;margin-bottom:0px;">最高价￥{{ result.max_price }} <button id = 'max_price' class = "price" style="width:500px;background-color:#fc6567"></button></div>
+                                 <div class="currency" style="color:#FF8C69;margin:10px auto;font-size: 18px;margin-bottom:0px;">平均价￥{{ result.avg_price }} <button id = 'avg_price' class = "price" style="background-color:#FF8C69"></button></div>
+                                 <div class="currency" style="margin:10px auto;font-size: 18px;margin-bottom:0px;">当前价￥{{ result.price }} <button id = 'price' class = "price"  style="background-color:#1ac4e2"></button></div>
+                            </div>
+
                             <span class="tags" style="color: #5e5e5e">关键属性:</span>
                              <p>
                                  {% for i in attributes %}
                                      <a href="#">{{ i }}</a>,
                                   {% endfor %}
                              </p>
-                            <div class="add-cart"><a class="btn btn-default" herf="#">去购买</a>
+
+                            <div class="add-cart">
+                                <a class="btn btn-default" herf="#">去购买</a>
                             </div>
 						</div>
 					</div>
@@ -368,9 +374,14 @@
             }
 
             var message = {{ message|safe}};
+            var result = {{ result|safe}};
             var cur_page = message['cur_page']
             var sku = message['sku']
             var page_no = message['page_no']
+            var kind = message['kind']
+            var max_price = result['max_price']
+            var avg_price = result['avg_price']
+            var price = result['price']
             var path = window.location.pathname;
             var url = path+'?sku='+ message['sku']
             var li = document.getElementById('page').getElementsByTagName('li')
@@ -393,6 +404,16 @@
                     li[i + 1].style = 'display:none'
                 }
             }
+
+            if(kind=='cellphone'){
+                document.getElementById('cellphone').style.color = '#FFB90F'
+            }
+            if(kind=='computer'){
+                document.getElementById('computer').style.color = '#FFB90F'
+            }
+            var width = Number(document.getElementById('max_price').style.width.substring(0,3))
+            document.getElementById('avg_price').style.width = (avg_price/max_price*width)+'px'
+            document.getElementById('price').style.width = (price/max_price*width)+'px'
         </script>
     </body>
 </html>

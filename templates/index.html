@@ -79,29 +79,20 @@
 
 								<!-- Collect the nav links, forms, and other content for toggling -->
                                 <div class="row">
-								<div class="col-sm-9 collapse navbar-collapse" id="header-bottom">
+                                <div class="col-sm-9 collapse navbar-collapse" id="header-bottom">
 									<ul class="nav navbar-nav">
-										<li class="active"><a href="#" class="dropdown-toggle"  onmouseover="this.style.color='white'" onmouseout="this.style.color='#FFB90F'" style="text-align: center;color:#FFB90F;font-size:18px;width: 100px;font-weight: 300" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
-											<ul class="dropdown-menu">
-												<li><a href="login.html">安卓</a></li>
-												<li><a href="index-2.html">苹果</a></li>
-											</ul>
+										<li class="active"><a id='cellphone' href="products?table=cellphone&cur_page=1"  style="text-align: center;color:#FFFFF0;font-size:18px;width: 100px;font-weight: 300" >手机</a><span class="label label-info text-center hidden-xs">New <i class="fa fa-caret-right"></i></span>
 										</li>
-										<li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">电脑</a>
-											<ul class="dropdown-menu">
-												<li><a href="product.html">平板</a></li>
-												<li><a href="product-detail.html">手提</a></li>
-												<li><a href="new-product.html">台式</a></li>
-											</ul>
+										<li><a id='computer' href="products?table=computer&cur_page=1"  style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  >电脑</a>
 										</li>
-                                        <li><a href="about-us.html" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300">电器</a> </li>
+                                        <li><a href="#" onmouseover="this.style.color='#FFB90F'" onmouseout="this.style.color='white'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300">电器</a> </li>
 
-                                        <li><a href="product-detail.html" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
+                                        <li><a href="#" class="dropdown-toggle" onmouseover="this.style.color='#FFB90F'" style="text-align: center;font-size:18px;color: #FFFFF0;width: 100px;font-weight: 300" onmouseout="this.style.color='white'"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">彩妆</a><span class="label label-danger text-center hidden-xs">Hot <i class="fa fa-caret-right"></i></span>
 											<ul class="dropdown-menu">
-                                                <li><a href="product-detail.html">底妆</a></li>
-												<li><a href="product.html">眼妆</a></li>
-												<li><a href="new-product.html">唇妆</a></li>
-												<li><a href="new-product.html">香水</a></li>
+                                                <li><a href="#">底妆</a></li>
+												<li><a href="#">眼妆</a></li>
+												<li><a href="#">唇妆</a></li>
+												<li><a href="#">香水</a></li>
 											</ul>
 										</li>
 
@@ -519,5 +510,4 @@
         <script type="text/javascript" src="{% static 'market/bootstrap/js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'market/js/custom.js' %}"></script>
     </body>
-
 </html>

@@ -6,7 +6,7 @@ def search_sql(sql,data):
     try:
         db = ''
         db = pymysql.connect(host="127.0.0.1", user="root", password="1234", db="recommendation", port=3306,charset="utf8")
-        print(sql)
+        # print(sql)
         cur = db.cursor()  # 获取操作游标
         cur.execute(sql,data)  # 执行sql语句
         results = []
@@ -27,7 +27,7 @@ def update_sql(sql,data):
     try:
         db = ''
         db = pymysql.connect(host="127.0.0.1", user="root", password="1234", db="recommendation", port=3306,charset="utf8")
-        print(sql)
+        # print(sql)
         cur = db.cursor()  # 获取操作游标
         cur.execute(sql,data)  # 执行sql语句
         db.commit()
