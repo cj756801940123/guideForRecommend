@@ -99,7 +99,7 @@ def handle_sql_result(sql_result,user,cur_page):
 
     #获取热门品牌排名
     brands = []
-    brand_sql = 'select b.shop_name,a.brand ,b.follow from '+table+' a ,shop b where a.shop_id = b.shop_id group by brand order by follow desc limit 12;'
+    brand_sql = 'select b.shop_name,a.brand ,b.follow from '+table+' a ,shop b where a.shop_id = b.shop_id group by brand order by follow desc limit 10;'
     sql_result = database_util.search_sql(brand_sql,None)
     if sql_result[0] != -1:
         sql_result = list(sql_result[1])

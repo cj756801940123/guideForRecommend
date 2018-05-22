@@ -174,14 +174,15 @@
                                         <div class="row">
                                              <div class="row">
                                                 <div class="col-sm-2 " style="padding-left: 20px">
-                                                      <h5 style="padding-left:15px;color:#556273;margin:0px;margin-top: 5px">情感平均值 </h5>
+                                                      <h5 style="padding-left:15px;color:#333;margin:0px;margin-top: 5px">情感平均值 </h5>
                                                       <strong style="color: #d43f3a;font-size: 45px;padding-left: 30px;padding-top: 0">{{ result.sentiment }}</strong>
                                                 </div>
                                                 <div class="col-sm-10 category">
-                                                    <p style="color:#556273;font-size: 20px;">用户最关注属性</p>
+{#                                                    <p style="color:#556273;font-size: 20px;">用户最关注属性</p>#}
+                                                    <p style="color:#333;font-size: 20px;">用户最关注属性</p>
                                                     <div class="pro-details" style="margin-top: 5px;padding-right: 250px">
                                                         {% for i in attributes %}
-                                                        <a class=" tags" style="padding: 0 9px;margin: 5px;color:sandybrown;border-color: #e0e0e0;border: 1px solid #e0e0e0;" >{{ i }}</a>
+                                                        <a class=" tags" style="padding: 0 9px;margin: 5px;color:#FF8C69;border-color: #e0e0e0;border: 1px solid #e0e0e0;" >{{ i }}</a>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -195,7 +196,7 @@
                                             <div class="user-column col-sm-2">
                                                 <div class="user-info" style="padding-left: 10px">
                                                     <img src="//misc.360buyimg.com/user/myjd-2015/css/i/peisong.jpg" alt="j***y" class="avatar" width="25" height="25">
-                                                    <span style="padding-left: 5px" >{{ i.nickname }}</span>
+                                                    <span style="padding-left: 5px;color: #333" >{{ i.nickname }}</span>
                                                     </div>
                                                     <div class="user-level">
                                                     </div>
@@ -213,7 +214,8 @@
                                                     </li>
                                                     <strong id="price0"> 情感值 {{ i.score }}</strong>
                                                 </ul>
-                                                <p class="comment-con" style="color: #556273">{{ i.comment}}</p>
+{#                                                <p class="comment-con" style="color: #556273">{{ i.comment}}</p>#}
+                                                <p class="comment-con" style="color: #333">{{ i.comment}}</p>
                                                 <div class="J-pic-view-wrap clearfix" data-rotation="0">
                                                 </div>
                                             </div>
@@ -245,7 +247,7 @@
                                         <div class="row">
                                              <div class="row">
                                                 <div class="col-sm-2 " style="padding-left: 20px">
-                                                      <h5 style="padding-left:15px;color:#556273;margin:0px;margin-top: 5px">刷单评论比率 </h5>
+                                                      <h5 style="padding-left:15px;color:#556273;margin:0px;margin-top: 5px">刷单评论比例 </h5>
                                                       <strong style="color: #d43f3a;font-size: 40px;padding-left:15px;padding-top: 0">{{ message.unreal_rate }}</strong>
                                                 </div>
                                                 <div class="col-sm-10 category">

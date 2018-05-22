@@ -192,7 +192,7 @@
                                              <span>好评率：</span><input type="text" name="rate" style="width: 73%" id="rate" placeholder="好评率..." class="form-last-name myform"  value={{weight.rate}} >
                                         </div>
                                         <div class="form-group">
-                                            <span>店家关注度：</span><input type="text" name="follow" style="width: 60%" id="follow" placeholder="店家热门程度..." class="form-last-name myform" value={{weight.follow}}  >
+                                            <span>店铺关注度：</span><input type="text" name="follow" style="width: 60%" id="follow" placeholder="店家热门程度..." class="form-last-name myform" value={{weight.follow}}  >
                                         </div>
                                         <div class="form-group">
                                             <span>商品销量：</span><input type="text" name="comment" style="width: 66%" id="comment" placeholder="商品销量..." class="form-last-name myform"  value={{weight.comment}} >
@@ -352,6 +352,8 @@
                 var page_no = message['page_no']
                 var kind = message['kind']
                 var path = window.location.pathname;
+                if (path=='/reset_weight')
+                    path = '/products'
                 var url = path + '?keywords=' + message['keywords'] + '&price1=' + message['price1'] + '&price2=' + message['price2']
                 var li = document.getElementById('page').getElementsByTagName('li')
                 li[0].firstChild.href = url + '&cur_page=' + 1
@@ -374,10 +376,9 @@
                     }
                 }
 
-
                 if(kind=='cellphone')
                     document.getElementById('cellphone').style.color = '#FFB90F'
-                 if(kind=='computer')
+                if(kind=='computer')
                     document.getElementById('computer').style.color = '#FFB90F'
 
 
