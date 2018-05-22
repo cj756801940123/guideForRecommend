@@ -14,11 +14,13 @@ import json
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
+table = 'computer'
 
-def get_product_info(table,sku):
+def get_product_info(sku):
     #数据初始化
     result = {}
-    sql = 'select name,price,img,url,rate,comment,description,shop_name,follow,sku,avg_price,sentiment from ' + table + ' where sku=%s;'
+    sql = 'select a.name,a.price,a.img,a.url,a.rate,a.comment,a.description,b.shop_name,b.follow,a.sku,a.avg_price,a.sentiment,a.max_price from ' + table + ' a,shop b where a.shop_id=b.shop_id  and a.sku=%s'
+
     data = [sku]
     sql_result = database_util.search_sql(sql, data)
     if sql_result[0]!=-1:
@@ -39,9 +41,10 @@ def get_product_info(table,sku):
         result["sku"] = temp[9]
         result["avg_price"] = temp[10]
         result["sentiment"] = int(temp[11])
+        result["max_price"] = float(temp[12])
     return result
 
-def get_comment(table,sku,cur_page):
+def get_comment(sku,cur_page):
     useful_file = DATA_PATH+table+'/score_comments/'+sku+'.txt'
     count = 0;
     start = (int(cur_page) - 1) * 10 + 1
@@ -76,7 +79,7 @@ def get_comment(table,sku,cur_page):
         page_no += 1
     return count,useful_comments,page_no
 
-def get_unreal_comment(table,sku):
+def get_unreal_comment(sku):
     unreal_file = DATA_PATH+table+'/unreal_comments/'+sku+'.txt'
     if not os.path.exists(unreal_file):
         return 0,[]
@@ -99,7 +102,7 @@ def get_unreal_comment(table,sku):
         file.close()
     return len(unreal_comments),unreal_comments
 
-def get_attribute(table):
+def get_attribute():
     try:
         fin = open(FILE_PATH+'procedure_files/'+table+'_attributes.txt', 'r', encoding='utf-8')  # 以读的方式打开文件
         attribute_words = []
@@ -116,24 +119,24 @@ def get_attribute(table):
 
 @require_http_methods(["GET"])
 def get_product_detail(request):
-    table = 'cellphone'
+    # table = 'cellphone'
     message = {}
     message['sku'] = request.GET.get("sku", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
 
-    result = get_product_info(table,message['sku'])
-    temp = get_comment(table, message['sku'],message['cur_page'])
+    result = get_product_info(message['sku'])
+    temp = get_comment(message['sku'],message['cur_page'])
     useful = temp[0]
     score_comments = temp[1]
     message['page_no'] = temp[2]
-    temp = get_unreal_comment(table, message['sku'])
+    temp = get_unreal_comment(message['sku'])
     unreal_comments = temp[1]
     unreal = temp[0]
     if unreal==0:
         message['unreal_rate'] = 0
     else:
         message['unreal_rate'] = str(round(unreal*1.0/(useful+unreal)*100.0,2))+'%'
-    attributes = get_attribute(table)
+    attributes = get_attribute()
     return render(request, "product-detail.html",{'result':result,'score_comments':score_comments,
                               'unreal_comments':unreal_comments,'attributes':attributes,'message':message})
 

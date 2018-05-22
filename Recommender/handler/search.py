@@ -14,11 +14,13 @@ from django.contrib.sessions.models import Session
 FILE_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/Recommendation/data/').replace('\\','/')
 DATA_PATH = (os.path.dirname(os.path.dirname(os.path.abspath("search.py"))) + '/RecommendData/').replace('\\','/')
 
-def get_sql(table,keywords,price1,price2,type):
+table = 'computer'
+
+def get_sql(keywords,price1,price2,type):
     data = []
-    sql =  'select name,price,img,url,rate,comment,description,shop_name,follow,sku,sentiment,brand_hot,avg_price from '+table+' where 1=1  '
+    sql =  'select a.name,a.price,a.img,a.url,a.rate,a.comment,a.description,b.shop_name,b.follow,a.sku,a.sentiment,a.brand_hot,a.avg_price from '+table+' a,shop b where a.shop_id=b.shop_id'
     if keywords != '':
-        sql = sql + ' and match(description) against(%s in natural language mode) '
+        sql = sql + ' and match(a.description) against(%s in natural language mode) '
         data.append(keywords)
     if price1!='':
         sql = sql + ' and price>=%s '
@@ -31,10 +33,10 @@ def get_sql(table,keywords,price1,price2,type):
     return database_util.search_sql(sql,data)
 
 
-def handle_sql_result(sql_result,table,user,cur_page):
+def handle_sql_result(sql_result,user,cur_page):
     #获取weight表中的参数，便于后面排序
-    sql = 'select rate,follow,comment,sentiment,brand_hot,sum,comment_score,hot_score from weight where user=%s'
-    result = database_util.search_sql(sql, user)
+    sql = 'select rate,follow,comment,sentiment,brand_hot,sum,comment_score,hot_score from weight where user=%s and kind=%s'
+    result = database_util.search_sql(sql, [user,table])
     weight = {}
     if result[0] != -1:
         i = list(result[1])[0]
@@ -58,7 +60,14 @@ def handle_sql_result(sql_result,table,user,cur_page):
         temp = list(sql_result[1])
         for t in temp:
             j = list(t)
-            score = round((float(j[4]) * w_rate + float(j[8])*w_follow/hot_score + float(j[5]) * w_comment/comment_score + float(j[10]) * w_sentiment + float(j[11])* w_brand/hot_score), 2)
+            score = round((float(j[4]) * w_rate
+                           + float(j[8])* w_follow/hot_score
+                           + float(j[5]) * w_comment/comment_score
+                           + float(j[10]) * w_sentiment
+                           + float(j[11])*
+                           w_brand/
+                           hot_score),
+                          2)
             j.append(score)
             all_list.append(j)
 
@@ -69,8 +78,6 @@ def handle_sql_result(sql_result,table,user,cur_page):
         page_no += 1
     item = []
     cur_page = int(cur_page)
-    print(cur_page)
-    print('start'+str(cur_page*9-9))
     for i in range(cur_page*9-9,9*cur_page):
         if (i >= len(all_list)):
             break
@@ -96,7 +103,7 @@ def handle_sql_result(sql_result,table,user,cur_page):
 
     #获取热门品牌排名
     brands = []
-    brand_sql = 'select shop_name,brand ,follow from ' + table + ' group by brand order by follow desc limit 12;'
+    brand_sql = 'select b.shop_name,a.brand ,b.follow from '+table+' a ,shop b where a.shop_id = b.shop_id group by brand order by follow desc limit 12;'
     sql_result = database_util.search_sql(brand_sql,None)
     if sql_result[0] != -1:
         sql_result = list(sql_result[1])
@@ -128,11 +135,9 @@ def get_sale_products(request):
     message['price2'] = request.GET.get("price2", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
     username = 'cj'
-    table = 'cellphone'
-    # message['username'] = request.session['username']
 
-    sql_result = get_sql(table, message['keywords'], message['price1'], message['price2'], 'sale_products')
-    results = handle_sql_result(sql_result, table, username,message['cur_page'])
+    sql_result = get_sql(message['keywords'], message['price1'], message['price2'], 'sale_products')
+    results = handle_sql_result(sql_result,username,message['cur_page'])
     message['page_no'] = results['page_no']
     message['username'] = username
     return render(request, "product.html",{'weight': results['weight'],'message':message,'results': results})
@@ -146,12 +151,12 @@ def get_products(request):
     message['price1'] = request.GET.get("price1", '')
     message['price2'] = request.GET.get("price2", '')
     message['cur_page'] = request.GET.get("cur_page", 1)
-    table = 'cellphone'
+    global table
+    table = request.GET.get("table", table)
     username = 'cj'
-    # request.session['username'] = user
 
-    sql_result = get_sql(table,message['keywords'],message['price1'],message['price2'],'products')
-    results = handle_sql_result(sql_result,table,username,message['cur_page'] )
+    sql_result = get_sql(message['keywords'],message['price1'],message['price2'],'products')
+    results = handle_sql_result(sql_result,username,message['cur_page'] )
     message['page_no'] = results['page_no']
     message['username'] = username
     return render(request, "product.html",{'weight':results['weight'],'message':message,'results':results})
@@ -167,6 +172,6 @@ def reset_weight(request):
     sentiment = int(request.POST.get('sentiment',''))
     brand_hot = int(request.POST.get('brand_hot',''))
     sum = rate+follow+comment+sentiment+brand_hot
-    sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s'
-    database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user])
+    sql = 'update weight set rate=%s,follow=%s,comment=%s,sentiment=%s,brand_hot=%s,sum=%s where user=%s and kind=%s'
+    database_util.update_sql(sql,[rate,follow,comment,sentiment,brand_hot,sum,user,table])
     return get_products(request)
